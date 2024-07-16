@@ -1,8 +1,19 @@
 import { Box, Button } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import ThemeButton from "../components/ThemeButton";
+import { useAppSelector } from "../hooks/redux";
+import { useNavigate } from "react-router-dom";
 
 const ChatPage = () => {
+  const success = useAppSelector((state) => state.user.success);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!success) {
+      navigate("/");
+    }
+  }, [success]);
+
   return (
     <>
       <Box sx={{ display: "flex", position: "relative", height: "100vh" }}>
@@ -26,6 +37,7 @@ const ChatPage = () => {
           >
             + New Chat
           </Button>
+          <Box sx={{ height: "100%", overflow: "scroll" }}></Box>
           <Box>
             <Button sx={{ width: "100%", justifyContent: "flex-start" }}>
               <img src="img/rss_feed.png" alt="" />

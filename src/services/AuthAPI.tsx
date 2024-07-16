@@ -1,6 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  FetchBaseQueryError,
+  createApi,
+  fetchBaseQuery,
+} from "@reduxjs/toolkit/query/react";
 import { ApiAuth } from "../types/auth";
-
 const apiBaseURL = "https://trainee-api.chat.abcloudz.com/api/v1";
 
 export const AuthAPI = createApi({
@@ -22,8 +25,6 @@ export const AuthAPI = createApi({
     getUser: build.query<ApiAuth, void>({
       query: () => {
         const accessToken = localStorage.getItem("accessToken");
-        console.log("get api");
-
         return {
           url: "/auth/recover-user",
           method: "GET",
@@ -33,7 +34,27 @@ export const AuthAPI = createApi({
         };
       },
     }),
+    refreshUser: build.mutation<ApiAuth, void>({
+      query: () => {
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        console.log("Refresh the tocken now");
+
+        return {
+          url: "/auth/token/refresh",
+          method: "PUT",
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: {
+            token: refreshToken,
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { usePostLoginMutation, useGetUserQuery } = AuthAPI;
+export const { usePostLoginMutation, useGetUserQuery, useRefreshUserMutation } =
+  AuthAPI;

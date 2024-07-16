@@ -1,5 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ApiAuth } from "../../types/auth";
+import { AccountStatus } from "../../interfaces-submodule/enums/account/account-status.enum";
+import { AccountTypeAuth } from "../../interfaces-submodule/enums/account/account-type-auth.enum";
+import { AccountRole } from "../../interfaces-submodule/enums/account/account-role.enum";
 
 const initialState: ApiAuth = {
   success: false,
@@ -10,9 +13,9 @@ const initialState: ApiAuth = {
       email: "",
       firstName: "",
       lastName: "",
-      status: "",
-      typeAuth: "",
-      accountRole: "",
+      status: AccountStatus.Invited,
+      typeAuth: AccountTypeAuth.LOCAL,
+      accountRole: AccountRole.User,
     },
     sessionId: "",
   },

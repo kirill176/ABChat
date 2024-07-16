@@ -1,12 +1,5 @@
-interface Account {
-  id: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  status: string;
-  typeAuth: string;
-  accountRole: string;
-}
+import { IAccountDTO } from "../interfaces-submodule/interfaces/dto/account/iaccount.interface";
+import { IAccessDTO } from "../interfaces-submodule/interfaces/dto/auth/iaccess.interface";
 
 interface FieldValidationError {
   name: string;
@@ -25,7 +18,8 @@ interface ErrorResponse {
 }
 
 interface SuccessResponse {
-  account: Account;
+  access?: IAccessDTO;
+  account: IAccountDTO;
   sessionId: string;
 }
 

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { useGetUserQuery, usePostLoginMutation } from "../services/AuthAPI";
+import { usePostLoginMutation } from "../services/AuthAPI";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -41,6 +41,7 @@ const LoginForm = () => {
       const response = await login({ email, password }).unwrap();
       localStorage.setItem("accessToken", response.data.access.accessToken);
       localStorage.setItem("refreshToken", response.data.access.refreshToken);
+      console.log(response.data.access.refreshToken);
       window.location.reload();
     } catch (err) {
       console.error("Failed to login:", err);

@@ -16,5 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src/js", "generate-api-client.js"]
+  "include": ["src/js", "generate-api-client.js", "src/utils", "src/types", "src/store", "src/services", "src/pages", "src/hooks", "src/components", "src/ThemeContextProvider.tsx", "src/theme.ts", "src/main.tsx", "src/App.tsx"]
 }
