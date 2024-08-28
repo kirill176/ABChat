@@ -1,16 +1,10 @@
-import {
-  FetchBaseQueryError,
-  createApi,
-  fetchBaseQuery,
-} from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ApiAuth } from "../types/auth";
-const apiBaseURL = "https://trainee-api.chat.abcloudz.com/api/v1";
+import baseQueryWithReauth from "./RequyreAuth";
 
 export const AuthAPI = createApi({
   reducerPath: "authAPI",
-  baseQuery: fetchBaseQuery({
-    baseUrl: apiBaseURL,
-  }),
+  baseQuery: baseQueryWithReauth,
   endpoints: (build) => ({
     postLogin: build.mutation({
       query: (credentials) => ({
@@ -37,9 +31,6 @@ export const AuthAPI = createApi({
     refreshUser: build.mutation<ApiAuth, void>({
       query: () => {
         const refreshToken = localStorage.getItem("refreshToken");
-
-        console.log("Refresh the tocken now");
-
         return {
           url: "/auth/token/refresh",
           method: "PUT",

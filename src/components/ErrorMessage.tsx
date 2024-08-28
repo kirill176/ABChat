@@ -22,7 +22,7 @@ const ErrorMessage: FC<ErrorMessageProps> = ({ error }) => {
   return (
     <Alert
       severity="error"
-      icon={false} // Убираем стандартную иконку
+      icon={false}
       sx={{
         width: "100%",
         alignItems: "flex-start",
@@ -40,7 +40,7 @@ const ErrorMessage: FC<ErrorMessageProps> = ({ error }) => {
             fontSize: "16px",
             fontWeight: "600",
             lineHeight: "24px",
-            margin: "0",
+            m: "0",
           }}
         >
           Error

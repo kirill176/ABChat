@@ -36,6 +36,9 @@ export const userSlice = createSlice({
       state.data = action.payload.data;
       state.error = action.payload.error || initialState.error;
     },
+    logoutUser(state) {
+      return initialState;
+    },
   },
 });
 

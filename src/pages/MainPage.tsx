@@ -66,7 +66,12 @@ const MainPage = () => {
               Continue with Microsoft
             </Typography>
           </Button>
-          <Typography variant="body1">or</Typography>
+          <Typography
+            variant="body1"
+            sx={{ display: "inline-block", p: "24px 0" }}
+          >
+            or
+          </Typography>
           <LoginForm />
         </LoginFormTheme>
         <Picture>

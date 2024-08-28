@@ -1,3 +1,4 @@
 [submodule "src/interfaces-submodule"]
 	path = src/interfaces-submodule
 	url = https://gitlab.com/public-stud-prog/public-common
+

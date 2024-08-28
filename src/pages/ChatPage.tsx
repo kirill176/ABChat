@@ -1,12 +1,43 @@
-import { Box, Button } from "@mui/material";
-import React, { useEffect } from "react";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import ThemeButton from "../components/ThemeButton";
-import { useAppSelector } from "../hooks/redux";
-import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { useGetChatsQuery } from "../services/ChatAPI";
+import { chatSlice } from "../store/reducers/ChatSlice";
+import Chat from "../components/Chat";
+import CreateChat from "../components/CreateChat";
+import Logout from "../components/Logout";
+import { useThemeContext } from "../ThemeContextProvider";
+import FeedsPage from "./FeedsPage";
+import AssistantPage from "./AssistantPage";
+import FeedInfoPage from "./FeedInfoPage";
+import BluredBox from "../components/StyledComponents/BluredBox";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 const ChatPage = () => {
   const success = useAppSelector((state) => state.user.success);
   const navigate = useNavigate();
+  const user = useAppSelector((state) => state.user.data);
+  const { data } = useGetChatsQuery();
+  const dispatch = useAppDispatch();
+  const chats = useAppSelector((state) => state.chat.data);
+  const [addChat, setAddChat] = useState(false);
+  const [logoutShow, setLogoutShow] = useState(false);
+  const logoutRef = useClickOutside(() => setLogoutShow(false));
+
+  const {
+    theme: {
+      palette: { mode },
+    },
+  } = useThemeContext();
+  const [chatsShow, setChatsShow] = useState(true);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(chatSlice.actions.setChats(data));
+    }
+  }, [data]);
 
   useEffect(() => {
     if (!success) {
@@ -14,9 +45,20 @@ const ChatPage = () => {
     }
   }, [success]);
 
+  const handleChatClick = () => {
+    navigate("/chat/assistant");
+  };
+
   return (
     <>
-      <Box sx={{ display: "flex", position: "relative", height: "100vh" }}>
+      <Box
+        sx={{
+          display: "flex",
+          position: "relative",
+          height: "100vh",
+          backgroundColor: "background.secondary",
+        }}
+      >
         <Box
           sx={{
             width: "320px",
@@ -24,6 +66,8 @@ const ChatPage = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
+            ml: chatsShow ? "0" : "-320px",
+            backgroundColor: "background.default",
           }}
         >
           <Button
@@ -31,26 +75,106 @@ const ChatPage = () => {
             color="primary"
             sx={{
               borderColor: "secondary.main",
-              borderWidth: "2px",
               width: "100%",
             }}
+            onClick={() => setAddChat(true)}
           >
             + New Chat
           </Button>
-          <Box sx={{ height: "100%", overflow: "scroll" }}></Box>
+          <Box
+            sx={{
+              height: "100%",
+              overflowY: "scroll",
+              margin: "10px 0",
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
+              msOverflowStyle: "none",
+              scrollbarWidth: "none",
+            }}
+          >
+            {chats.map((chat) => (
+              <Chat onClick={handleChatClick} key={chat.id} chat={chat} />
+            ))}
+          </Box>
           <Box>
-            <Button sx={{ width: "100%", justifyContent: "flex-start" }}>
-              <img src="img/rss_feed.png" alt="" />
-              Upwork feed
+            <Button
+              onClick={() => navigate("/chat/feeds")}
+              sx={{ width: "100%", justifyContent: "flex-start" }}
+            >
+              <img
+                src={
+                  mode == "light"
+                    ? "../img/rss_feedL.png"
+                    : "../img/rss_feedD.png"
+                }
+                alt=""
+              />
+              <Typography sx={{ ml: "8px" }}>Upwork feed</Typography>
             </Button>
-            <Button sx={{ width: "100%", justifyContent: "flex-start" }}>
-              <img src="img/avatar outline.png" alt="" />
-              username
-            </Button>
+            <Box ref={logoutRef} sx={{ position: "relative" }}>
+              <Button
+                onClick={() => setLogoutShow(!logoutShow)}
+                sx={{
+                  width: "100%",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <img
+                  src={
+                    mode == "light"
+                      ? "../img/avatarL.png"
+                      : "../img/avatarD.png"
+                  }
+                  alt=""
+                />
+                <Typography sx={{ ml: "8px" }}>
+                  {user?.account.email}
+                </Typography>
+              </Button>
+              {logoutShow && <Logout setLogoutShow={setLogoutShow} />}
+            </Box>
           </Box>
         </Box>
-        <Box sx={{ backgroundColor: "#F6F7F8", width: "100%" }}></Box>
+        <Box
+          sx={{
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          <Routes>
+            <Route path="feeds" element={<FeedsPage />} />
+            <Route path="assistant" element={<AssistantPage />} />
+            <Route path="feeds/:id" element={<FeedInfoPage />} />
+            <Route path="*" element={<Navigate to="feeds" replace />} />
+          </Routes>
+          <IconButton
+            onClick={() => setChatsShow(!chatsShow)}
+            sx={{ position: "absolute", left: "0", top: "0", zIndex: "10" }}
+          >
+            {chatsShow ? (
+              <img
+                src={
+                  mode == "light"
+                    ? "../img/collapse menuL.png"
+                    : "../img/collapse menuD.png"
+                }
+                alt=""
+              />
+            ) : (
+              <img
+                src={mode == "light" ? "../img/menuL.png" : "../img/menuD.png"}
+                alt=""
+              />
+            )}
+          </IconButton>
+        </Box>
         <ThemeButton />
+        {addChat && (
+          <BluredBox>
+            <CreateChat setAddChat={setAddChat} />
+          </BluredBox>
+        )}
       </Box>
     </>
   );

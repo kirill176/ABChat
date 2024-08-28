@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { IconButton } from "@mui/material";
 import { useThemeContext } from "../ThemeContextProvider";
 
 const ThemeButton = () => {
-  const { toggleTheme } = useThemeContext();
-  const [isDarkTheme, setIsDarkTheme] = useState(false); // Локальное состояние для текущей темы
+  const {
+    toggleTheme,
+    theme: {
+      palette: { mode },
+    },
+  } = useThemeContext();
 
-  const handleThemeToggle = () => {
-    toggleTheme();
-    setIsDarkTheme((prev) => !prev); // Обновляем локальное состояние
-  };
   return (
     <>
       <IconButton
-        onClick={handleThemeToggle}
+        onClick={() => toggleTheme()}
         sx={{ position: "absolute", top: "0", right: "0" }}
       >
-        <img src={isDarkTheme ? "img/light.png" : "img/dark.png"} alt="" />
+        <img src={mode == "dark" ? "img/light.png" : "img/dark.png"} alt="" />
       </IconButton>
     </>
   );

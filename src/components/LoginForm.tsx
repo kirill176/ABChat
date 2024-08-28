@@ -1,6 +1,4 @@
 import {
-  Alert,
-  AlertTitle,
   Box,
   Button,
   IconButton,
@@ -8,14 +6,14 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { usePostLoginMutation } from "../services/AuthAPI";
+import ErrorMessage from "./ErrorMessage";
+import useLogin from "../hooks/useLogin";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [login, { data, error, isLoading }] = usePostLoginMutation();
+  const { handleLogin, error } = useLogin();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -37,26 +35,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const response = await login({ email, password }).unwrap();
-      localStorage.setItem("accessToken", response.data.access.accessToken);
-      localStorage.setItem("refreshToken", response.data.access.refreshToken);
-      console.log(response.data.access.refreshToken);
-      window.location.reload();
-    } catch (err) {
-      console.error("Failed to login:", err);
-    }
-  };
-
-  const getErrorMessage = (error: FetchBaseQueryError | undefined) => {
-    if (!error) return "Failed to login";
-
-    if ("data" in error) {
-      const errorData = error.data as { error: { errorCode?: string } };
-      return errorData?.error?.errorCode || "Failed to login";
-    }
-
-    return "Failed to login";
+    handleLogin(email, password);
   };
 
   return (
@@ -71,38 +50,7 @@ const LoginForm = () => {
           width: "320px",
         }}
       >
-        {error && (
-          <Alert
-            severity="error"
-            icon={false} // Убираем стандартную иконку
-            sx={{
-              width: "100%",
-              alignItems: "flex-start",
-              borderRadius: "8px",
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <img
-                src="../../img/success.png"
-                alt="Cross Hexagon"
-                style={{ width: 24, height: 24, marginRight: 8 }}
-              />
-              <AlertTitle
-                sx={{
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  lineHeight: "24px",
-                  margin: "0",
-                }}
-              >
-                Error
-              </AlertTitle>
-            </Box>
-            <Box sx={{ fontSize: "14px", lineHeight: "20px", ml: "32px" }}>
-              {getErrorMessage(error as FetchBaseQueryError)}
-            </Box>
-          </Alert>
-        )}
+        {error && <ErrorMessage error={error} />}
         <TextField
           label="Email"
           type="email"
@@ -110,6 +58,7 @@ const LoginForm = () => {
           value={email}
           onChange={handleEmailChange}
           fullWidth
+          autoComplete="email"
           InputProps={{
             sx: {
               maxHeight: "60px",
@@ -124,6 +73,7 @@ const LoginForm = () => {
           type={showPassword ? "text" : "password"}
           variant="outlined"
           fullWidth
+          autoComplete="current-password"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

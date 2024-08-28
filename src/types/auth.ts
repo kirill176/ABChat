@@ -27,5 +27,5 @@ export interface ApiAuth {
   success: boolean;
   statusCode: number;
   data: SuccessResponse | null;
-  error: ErrorResponse | null;
+  error?: ErrorResponse | null;
 }
