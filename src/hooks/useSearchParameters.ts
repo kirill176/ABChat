@@ -9,11 +9,13 @@ function useSearchParameters() {
     value: string | string[],
     searchBy: UpworkFeedSearchBy
   ) => {
-    dispatch(
-      feedsParamsSlice.actions.setSearchParameters([
-        { searchQuery: value, searchBy },
-      ])
-    );
+    if (value.length !== 0) {
+      dispatch(
+        feedsParamsSlice.actions.setSearchParameters([
+          { searchQuery: value, searchBy },
+        ])
+      );
+    }
   };
 
   return setSearchParameters;

@@ -65,7 +65,7 @@ const RenderSelect = (
         <ListItemText
           sx={{
             "& .MuiTypography-root": {
-              textAlign: "left", // Выровнять текст по левому краю
+              textAlign: "left",
               fontSize: "14px",
               lineHeight: "20px",
               fontWeight: "500",
