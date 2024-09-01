@@ -9,7 +9,7 @@ function useSearchParameters() {
     value: string | string[],
     searchBy: UpworkFeedSearchBy
   ) => {
-    if (value.length !== 0) {
+    if (value.length !== 0 || searchBy == UpworkFeedSearchBy.Published) {
       dispatch(
         feedsParamsSlice.actions.setSearchParameters([
           { searchQuery: value, searchBy },
