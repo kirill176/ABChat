@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "./redux";
 
 const useFetchFeeds = () => {
   const dispatch = useAppDispatch();
-  const [getFeeds, { isLoading }] = useGetFeedsMutation();
+  const [getFeeds, { isLoading, error }] = useGetFeedsMutation();
 
   const handleFetchFeeds = useCallback(
     async (
@@ -28,7 +28,7 @@ const useFetchFeeds = () => {
     [getFeeds, dispatch]
   );
 
-  return { handleFetchFeeds, isLoading };
+  return { handleFetchFeeds, isLoading, error };
 };
 
 export default useFetchFeeds;

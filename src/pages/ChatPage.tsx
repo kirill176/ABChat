@@ -5,15 +5,15 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useGetChatsQuery } from "../services/ChatAPI";
 import { chatSlice } from "../store/reducers/ChatSlice";
-import Chat from "../components/Chat";
-import CreateChat from "../components/CreateChat";
-import Logout from "../components/Logout";
+import Chat from "../components/Chat/Chat";
 import { useThemeContext } from "../ThemeContextProvider";
 import FeedsPage from "./FeedsPage";
 import AssistantPage from "./AssistantPage";
 import FeedInfoPage from "./FeedInfoPage";
 import BluredBox from "../components/StyledComponents/BluredBox";
 import { useClickOutside } from "../hooks/useClickOutside";
+import Logout from "../components/Chat/Logout";
+import CreateChat from "../components/Chat/CreateChat";
 
 const ChatPage = () => {
   const success = useAppSelector((state) => state.user.success);

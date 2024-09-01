@@ -2,20 +2,9 @@ import React, { useMemo } from "react";
 import ThemeButton from "../components/ThemeButton";
 import { styled } from "@mui/system";
 import { Box, Button, Typography } from "@mui/material";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/Login/LoginForm";
 
 const MainPage = () => {
-  const LoginFormTheme = useMemo(
-    () =>
-      styled("div")(({ theme }) => ({
-        backgroundImage: theme.palette.background.default,
-        height: "100vh",
-        padding: "0 60px",
-        width: "440px",
-      })),
-    []
-  );
-
   const Picture = useMemo(
     () =>
       styled("div")(({ theme }) => ({
@@ -38,7 +27,14 @@ const MainPage = () => {
           position: "relative",
         }}
       >
-        <LoginFormTheme>
+        <Box
+          sx={{
+            backgroundImage: "background.default",
+            height: "100vh",
+            padding: "0 60px",
+            width: "440px",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -73,7 +69,7 @@ const MainPage = () => {
             or
           </Typography>
           <LoginForm />
-        </LoginFormTheme>
+        </Box>
         <Picture>
           <img src="img/Frame.svg" alt="" />
         </Picture>

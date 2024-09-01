@@ -58,10 +58,13 @@ const MatchedCases: FC<MatchedCasesTypes> = ({ matched, contentShow }) => {
               }}
               key={info.key}
             >
-              <Typography sx={{ color: "#70737A", mr: "8px" }} variant="body2">
+              <Typography
+                sx={{ color: "#70737A", mr: "8px", textWrap: "nowrap" }}
+                variant="body2"
+              >
                 {info.key}:
               </Typography>
-              <Typography variant="body2">
+              <Typography variant="body2" sx={{ textAlign: "left" }}>
                 {info.key == "Published" ? format(info.value) : info.value}
               </Typography>
             </Box>

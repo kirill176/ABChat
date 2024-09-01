@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ReviewType } from "../../interfaces-submodule/enums/upwork-feed/review-type.enum";
 import { IUpworkResponseListFeedsDto } from "../../interfaces-submodule/interfaces/dto/upwork-feed/iupwork-response-list-feeds.dto";
 
 const initialState: IUpworkResponseListFeedsDto = {

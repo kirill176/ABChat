@@ -13,7 +13,7 @@ const Keywords = () => {
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", alignItems: "start", flexWrap: "wrap" }}>
           {keywords.map((keyword) => (
-            <Keyword keyword={keyword} />
+            <Keyword key={keyword} keyword={keyword} />
           ))}
         </Box>
         <Box sx={{ display: "flex", gap: "8px" }}>

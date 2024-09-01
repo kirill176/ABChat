@@ -1,5 +1,4 @@
 import { createTheme, Theme } from "@mui/material/styles";
-import { createContext } from "react";
 
 interface ThemeContextType {
   toggleTheme: () => void;

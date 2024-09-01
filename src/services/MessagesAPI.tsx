@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import baseQueryWithReauth from "./RequyreAuth";
 
 export const MessagesAPI = createApi({
@@ -35,46 +35,7 @@ export const MessagesAPI = createApi({
         };
       },
     }),
-    subscribe: build.mutation({
-      query: (chatId) => {
-        const accessToken = localStorage.getItem("accessToken");
-        return {
-          url: "/messages/subscribe",
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: {
-            chatId: chatId,
-            accessToken: accessToken,
-          },
-        };
-      },
-    }),
-    unsubscribe: build.mutation({
-      query: ({ ChatId }) => {
-        const accessToken = localStorage.getItem("accessToken");
-        return {
-          url: "/messages/unsubscribe",
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: {
-            ChatId: ChatId,
-            accessToken: accessToken,
-          },
-        };
-      },
-    }),
   }),
 });
 
-export const {
-  useSendMessageMutation,
-  useGetMessagesQuery,
-  useSubscribeMutation,
-  useUnsubscribeMutation,
-} = MessagesAPI;
+export const { useSendMessageMutation, useGetMessagesQuery } = MessagesAPI;

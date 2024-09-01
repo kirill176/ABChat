@@ -37,26 +37,36 @@ export const feedsParamsSlice = createSlice({
     ) {
       const newParameters = action.payload;
 
-      state.searchParameters =
-        state.searchParameters?.map((param) => {
+      state.searchParameters = state.searchParameters ?? [];
+
+      state.searchParameters = state.searchParameters
+        .map((param) => {
           const newParam = newParameters.find(
             (p) => p.searchBy === param.searchBy
           );
-          if (newParam) {
-            return { ...param, searchQuery: newParam.searchQuery };
-          }
-          return param;
-        }) ?? [];
 
-      state.searchParameters = [
-        ...state.searchParameters,
-        ...newParameters.filter(
-          (p) =>
-            !state.searchParameters?.some(
-              (existingParam) => existingParam.searchBy === p.searchBy
-            )
-        ),
-      ];
+          if (newParam && newParam.searchQuery === "") {
+            return null;
+          }
+
+          return newParam
+            ? { ...param, searchQuery: newParam.searchQuery }
+            : param;
+        })
+        .filter(
+          (param): param is ISearchParameterDTO<UpworkFeedSearchBy> =>
+            param !== null
+        );
+
+      const paramsToAdd = newParameters.filter(
+        (p) =>
+          p.searchQuery !== "" &&
+          !state.searchParameters?.some(
+            (existingParam) => existingParam.searchBy === p.searchBy
+          )
+      );
+
+      state.searchParameters.push(...paramsToAdd);
     },
     setSort(state, action: PayloadAction<FeedsSortState>) {
       state.sortDirection = action.payload.sortDirection;

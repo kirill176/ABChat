@@ -20,6 +20,8 @@ const FeedInfoPage = () => {
     (state) => state.feedInfo.data
   );
 
+  console.log(data);
+
   useEffect(() => {
     dispatch(feedInfoSlice.actions.setFeed(data));
   }, [data]);
@@ -79,7 +81,9 @@ const FeedInfoPage = () => {
               m: "8px 0",
             }}
           >
-            <Typography variant="h1" sx={{ ml: "0" }}></Typography>
+            <Typography variant="h1" sx={{ ml: "0" }}>
+              {data.data.title}
+            </Typography>
             <Button
               variant="outlined"
               sx={{

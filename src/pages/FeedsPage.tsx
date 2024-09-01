@@ -1,40 +1,31 @@
 import {
+  Alert,
+  AlertTitle,
   Box,
   Button,
-  CircularProgress,
-  MenuItem,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import FeedsRows from "../components/FeedsRows";
 import { useThemeContext } from "../ThemeContextProvider";
-import PaginationRow from "../components/PaginationRow";
-import TableHeadRows from "../components/TableHeadRows";
 import { useAppSelector } from "../hooks/redux";
 import useFetchFeeds from "../hooks/useFetchFeeds";
+import PaginationRow from "../components/Table/PaginationRow";
+import FeedsTable from "../components/Table/FeedsTable";
 
 const FeedsPage = () => {
   const { theme } = useThemeContext();
   const [pageSize, setPageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
-  const [selectInp, setSelectInp] = useState("option1");
   const searchParameters = useAppSelector((state) => state.feedsParams);
-  const { handleFetchFeeds, isLoading } = useFetchFeeds();
-  const { items } = useAppSelector((state) => state.feed);
+  const { handleFetchFeeds, isLoading, error } = useFetchFeeds();
 
   useEffect(() => {
     handleFetchFeeds(pageSize, pageNumber, searchParameters);
   }, [pageSize, pageNumber, searchParameters, handleFetchFeeds]);
 
   const handleRefresh = () => {
-    window.location.reload();
+    handleFetchFeeds(pageSize, pageNumber, searchParameters);
   };
 
   return (
@@ -54,23 +45,11 @@ const FeedsPage = () => {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "flex-start",
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <Select
-            labelId="select-label"
-            id="select"
-            displayEmpty
-            inputProps={{ "aria-label": "Select an option" }}
-            sx={{ width: "600px", maxHeight: "48px" }}
-            onChange={(e) => setSelectInp(e.target.value)}
-            value={selectInp}
-          >
-            <MenuItem value="option1">Option 1</MenuItem>
-            <MenuItem value="option2">Option 2</MenuItem>
-            <MenuItem value="option3">Option 3</MenuItem>
-          </Select>
+          <Typography variant="h1">Upwork Feeds</Typography>
           <Button
             variant="outlined"
             onClick={handleRefresh}
@@ -105,48 +84,41 @@ const FeedsPage = () => {
             scrollbarWidth: "none",
           }}
         >
-          <Table sx={{ height: "100%" }}>
-            <TableHead>
-              <TableRow>
-                <TableHeadRows />
-              </TableRow>
-            </TableHead>
-            <TableBody
+          {error && (
+            <Alert
+              severity="error"
               sx={{
-                position: "relative",
-                height: "100%",
-                width: "100%",
+                my: "20px",
+                mx: "auto",
+                display: "flex",
+                alignItems: "center",
+                maxWidth: "800px",
               }}
             >
-              {isLoading ? (
-                <TableRow>
-                  <TableCell colSpan={items.items.length}>
-                    <Box
-                      sx={{
-                        height: "100%",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <CircularProgress />
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ) : (
-                <>
-                  {items.items.map((feed) => (
-                    <FeedsRows key={feed.id} feed={feed} />
-                  ))}
-                </>
-              )}
-            </TableBody>
-          </Table>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <AlertTitle
+                  sx={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    lineHeight: "24px",
+                    m: "0",
+                  }}
+                >
+                  Error
+                </AlertTitle>
+                <Typography sx={{ ml: "16px" }}>
+                  Failed to fetch Feeds. Change search parameters or refresh
+                  page
+                </Typography>
+              </Box>
+            </Alert>
+          )}
+          <FeedsTable loading={isLoading} />
         </TableContainer>
         <PaginationRow
           setPageNumber={setPageNumber}
           setPageSize={setPageSize}
+          size={pageSize}
         />
       </Box>
     </>

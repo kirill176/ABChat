@@ -1,49 +1,52 @@
 import { Box, IconButton, TextField, Typography } from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import {
-  useGetMessagesQuery,
-  useSendMessageMutation,
-} from "../services/MessagesAPI";
+import { useGetMessagesQuery } from "../services/MessagesAPI";
 import { messageSlice } from "../store/reducers/MessagesSlice";
-import Message from "../components/Message";
 import { IMessageDTO } from "../interfaces-submodule/interfaces/dto/message/imessage-dto";
 import { useThemeContext } from "../ThemeContextProvider";
-import { useSocket } from "../hooks/socket";
+import { useSocket } from "../hooks/useSocket";
+import { useSendMessage } from "../hooks/useSendMessage";
+import LoadingMessage from "../components/Assistant/LoadingMessage";
+import Message from "../components/Assistant/Message";
 
 const AssistantPage = () => {
   const chatId = useAppSelector((state) => state.chatId.chatId);
   const { data } = useGetMessagesQuery(chatId);
   const dispatch = useAppDispatch();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const { data: messages = [] } = useAppSelector((state) => state.message);
   const {
     theme: {
-      palette: { background },
+      palette: { background, mode },
     },
   } = useThemeContext();
   const [content, setContent] = useState("");
-  const [sendMessage] = useSendMessageMutation();
-  useSocket(chatId);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const handleSendMessage = useSendMessage(
+    chatId,
+    content,
+    setContent,
+    setIsLoading
+  );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   };
-
+  useSocket(chatId, setIsLoading);
   useEffect(() => {
     if (data) {
       dispatch(messageSlice.actions.setMessages(data));
     }
   }, [data, dispatch]);
 
-  const handleSend = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    if (content.trim()) {
-      await sendMessage({ chatId, content });
-      setContent("");
-    }
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading]);
 
   return (
     <>
@@ -90,6 +93,8 @@ const AssistantPage = () => {
               </Box>
             </Box>
           )}
+          {isLoading && <LoadingMessage />}
+          <div ref={messagesEndRef} />
         </Box>
         <Box
           sx={{
@@ -109,6 +114,8 @@ const AssistantPage = () => {
             sx={{
               border: "none",
               width: "100%",
+              borderRadius: "8px",
+              backgroundColor: mode == "light" ? "#FFFFFF" : "#131314",
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
                   border: "none",
@@ -124,10 +131,17 @@ const AssistantPage = () => {
             placeholder="Write a question..."
           />
           <IconButton
-            onClick={handleSend}
-            sx={{ borderRadius: "8px", width: "52px" }}
+            onClick={handleSendMessage}
+            sx={{
+              borderRadius: "0 8px 8px 0",
+              width: "52px",
+              backgroundColor: mode == "light" ? "#FFFFFF" : "#131314",
+            }}
           >
-            <img src="../img/send.png" alt="" />
+            <img
+              src={mode == "light" ? "../img/send.png" : "../img/send.png"}
+              alt=""
+            />
           </IconButton>
         </Box>
       </Box>
