@@ -41,4 +41,6 @@ export const feedInfoSlice = createSlice({
   },
 });
 
+export const { setFeed } = feedInfoSlice.actions;
+
 export default feedInfoSlice.reducer;

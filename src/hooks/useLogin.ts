@@ -1,5 +1,5 @@
 import { useAppDispatch } from "./redux";
-import { userSlice } from "../store/reducers/UserSlice";
+import { setUser } from "../store/reducers/UserSlice";
 import { usePostLoginMutation } from "../services/AuthAPI";
 
 const useLogin = () => {
@@ -16,7 +16,7 @@ const useLogin = () => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
 
-      dispatch(userSlice.actions.setUser(response));
+      dispatch(setUser(response));
     } catch (err) {
       console.error("Failed to login:", err);
     }

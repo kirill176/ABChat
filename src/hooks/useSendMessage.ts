@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { messageSlice } from "../store/reducers/MessagesSlice";
+import { addMessage } from "../store/reducers/MessagesSlice";
 import { useSendMessageMutation } from "../services/MessagesAPI";
 import { IMessageDTO } from "../interfaces-submodule/interfaces/dto/message/imessage-dto";
 
@@ -30,7 +30,7 @@ export const useSendMessage = (
           };
 
           if (response.data) {
-            dispatch(messageSlice.actions.addMessage(message));
+            dispatch(addMessage(message));
           }
           setContent("");
         } catch (error) {

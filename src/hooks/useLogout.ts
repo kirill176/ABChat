@@ -1,4 +1,4 @@
-import { userSlice } from "../store/reducers/UserSlice";
+import { logoutUser, userSlice } from "../store/reducers/UserSlice";
 import { useAppDispatch } from "./redux";
 import { SetStateAction, Dispatch } from "react";
 
@@ -7,7 +7,7 @@ export const useLogout = (setLogoutShow: Dispatch<SetStateAction<boolean>>) => {
 
   const handleClickLogout = () => {
     localStorage.clear();
-    dispatch(userSlice.actions.logoutUser());
+    dispatch(logoutUser());
     setLogoutShow(false);
     window.location.reload();
   };

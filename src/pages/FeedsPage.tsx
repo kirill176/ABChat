@@ -8,10 +8,11 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useThemeContext } from "../ThemeContextProvider";
-import { useAppSelector } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import useFetchFeeds from "../hooks/useFetchFeeds";
 import PaginationRow from "../components/Table/PaginationRow";
 import FeedsTable from "../components/Table/FeedsTable";
+import { refresh } from "../store/reducers/FeedsParamsSlice";
 
 const FeedsPage = () => {
   const { theme } = useThemeContext();
@@ -19,13 +20,14 @@ const FeedsPage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const searchParameters = useAppSelector((state) => state.feedsParams);
   const { handleFetchFeeds, isLoading, error } = useFetchFeeds();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     handleFetchFeeds(pageSize, pageNumber, searchParameters);
   }, [pageSize, pageNumber, searchParameters, handleFetchFeeds]);
 
   const handleRefresh = () => {
-    handleFetchFeeds(pageSize, pageNumber, searchParameters);
+    dispatch(refresh());
   };
 
   return (

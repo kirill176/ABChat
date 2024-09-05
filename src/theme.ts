@@ -220,6 +220,15 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          "&.Mui-checked": {
+            color: "#0F62FE",
+          },
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {

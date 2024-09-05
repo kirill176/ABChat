@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { formatISO } from "date-fns";
 import { Box } from "@mui/material";
 import useSearchParameters from "../../hooks/useSearchParameters";
 import { useThemeContext } from "../../ThemeContextProvider";
 import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
+import { useAppSelector } from "../../hooks/redux";
 
-const DateRangePicker = () => {
+interface DateRangePickerProps {
+  resetTriggered: boolean;
+}
+
+const DateRangePicker: FC<DateRangePickerProps> = ({ resetTriggered }) => {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const setSearchParameters = useSearchParameters();
@@ -15,6 +20,9 @@ const DateRangePicker = () => {
       palette: { mode },
     },
   } = useThemeContext();
+  const searchParameters = useAppSelector(
+    (state) => state.feedsParams.searchParameters
+  );
   const handleChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
     setStartDate(start || undefined);
@@ -33,6 +41,13 @@ const DateRangePicker = () => {
       setSearchParameters("", UpworkFeedSearchBy.Published);
     }
   };
+
+  useEffect(() => {
+    if (resetTriggered) {
+      setEndDate(undefined);
+      setStartDate(undefined);
+    }
+  }, [resetTriggered]);
 
   return (
     <Box>

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch } from "./redux";
 import { socket } from "./socket";
 import { NotificationEvents } from "../interfaces-submodule/enums/notification/notification-events.enum";
-import { messageSlice } from "../store/reducers/MessagesSlice";
+import { addMessage } from "../store/reducers/MessagesSlice";
 
 export const useSocket = (
   chatId: number,
@@ -15,7 +15,7 @@ export const useSocket = (
     socket.emit("subscribe", { chatId, accessToken });
 
     const handleChatResponse = (data: any) => {
-      dispatch(messageSlice.actions.addMessage(data));
+      dispatch(addMessage(data));
       setIsLoading(false);
     };
 

@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { IOptionInterface } from "../interfaces-submodule/interfaces/dto/common/ioption.interface";
+import { MultiValue } from "react-select";
 
 function useSelectAll(
-  initialLabels: string[],
-  options: IOptionInterface[]
+  initialLabels: MultiValue<{ value: string; label: string }>
 ): [
-  string[] | string,
+  MultiValue<{ value: string; label: string }>,
   boolean,
-  React.Dispatch<React.SetStateAction<string[] | string>>
+  React.Dispatch<
+    React.SetStateAction<MultiValue<{ value: string; label: string }>>
+  >
 ] {
-  const [selected, setSelected] = useState<string[] | string>(initialLabels);
-  const isAllSelected = selected.length === options.length;
+  const [selected, setSelected] =
+    useState<MultiValue<{ value: string; label: string }>>(initialLabels);
+  const isAllSelected = selected.length === initialLabels.length;
 
   return [selected, isAllSelected, setSelected];
 }

@@ -72,7 +72,11 @@ export const feedsParamsSlice = createSlice({
       state.sortDirection = action.payload.sortDirection;
       state.sortBy = action.payload.sortBy;
     },
+    refresh: () => initialState,
   },
 });
+
+export const { setFeedsParams, setSearchParameters, setSort, refresh } =
+  feedsParamsSlice.actions;
 
 export default feedsParamsSlice.reducer;

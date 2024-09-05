@@ -20,8 +20,6 @@ const FeedInfoPage = () => {
     (state) => state.feedInfo.data
   );
 
-  console.log(data);
-
   useEffect(() => {
     dispatch(feedInfoSlice.actions.setFeed(data));
   }, [data]);
@@ -91,7 +89,7 @@ const FeedInfoPage = () => {
                 borderColor: "secondary.main",
               }}
             >
-              <img src="../img/send solid.png" alt="" />
+              <img src="../img/sendD.png" alt="" />
               <Typography sx={{ pl: "8px" }}>
                 Save & Generate response
               </Typography>

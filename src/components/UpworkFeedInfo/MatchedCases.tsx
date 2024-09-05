@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Box, Checkbox, Link, Typography } from "@mui/material";
 import { IUpworkFeedMatchEntityDto } from "../../interfaces-submodule/interfaces/dto/upwork-feed/iupwork-feed-match-entity.dto";
-import dayjs from "dayjs";
+import useFormattedDate from "../../hooks/useFormatedDate";
 
 interface MatchedCasesTypes {
   matched: IUpworkFeedMatchEntityDto;
@@ -12,7 +12,7 @@ const MatchedCases: FC<MatchedCasesTypes> = ({ matched, contentShow }) => {
   const { title, link, content, selected, infoBlock } = matched;
 
   const format = (date: string) => {
-    return dayjs(date).format("DD MMM YYYY");
+    return useFormattedDate(date);
   };
 
   return (

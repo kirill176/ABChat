@@ -11,7 +11,7 @@ const ProjectInfo = () => {
     (state) => state.feedInfo.data
   );
 
-  const formatedDate = useFormattedDate(published);
+  const formatedDate = useFormattedDate(String(published));
 
   const handleExpandClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

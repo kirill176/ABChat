@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { useGetFeedsMutation } from "../services/FeedsAPI";
-import { feedSlice } from "../store/reducers/FeedsSclice";
+import { setFeeds } from "../store/reducers/FeedsSclice";
 import { IGetAllUpworkFeedRequest } from "../interfaces-submodule/interfaces/dto/upwork-feed/iget-all-upwork-feed-request.interface";
-import { useAppDispatch, useAppSelector } from "./redux";
+import { useAppDispatch } from "./redux";
 
 const useFetchFeeds = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +20,7 @@ const useFetchFeeds = () => {
           pageNumber,
           searchParams,
         }).unwrap();
-        dispatch(feedSlice.actions.setFeeds(response.data));
+        dispatch(setFeeds(response.data));
       } catch (err) {
         console.error("Failed to fetch feeds:", err);
       }
