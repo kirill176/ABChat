@@ -139,7 +139,7 @@ const AssistantPage = () => {
             }}
           >
             <img
-              src={mode == "light" ? "../img/send.png" : "../img/send.png"}
+              src={mode == "light" ? "../img/sendL.png" : "../img/sendD.png"}
               alt=""
             />
           </IconButton>

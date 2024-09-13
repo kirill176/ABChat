@@ -33,15 +33,15 @@ const Message: FC<MessagesTypes> = ({ message }) => {
           display: "flex",
           maxWidth: "800px",
           m: "8px",
-          alignItems: "center",
+          alignItems: "flex-start",
           justifyContent: "left",
         }}
       >
         <img
           src={message.isBot ? "../img/chat.png" : "../img/icon.png"}
           style={{
-            maxHeight: "48px",
-            maxWidth: "48px",
+            height: "48px",
+            width: "48px",
             padding: "8px",
           }}
           alt=""

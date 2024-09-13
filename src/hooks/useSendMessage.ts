@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { MouseEvent, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { addMessage } from "../store/reducers/MessagesSlice";
 import { useSendMessageMutation } from "../services/MessagesAPI";
@@ -14,7 +14,7 @@ export const useSendMessage = (
   const [sendMessage] = useSendMessageMutation();
 
   const handleSendMessage = useCallback(
-    async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    async (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       if (content.trim()) {
         try {

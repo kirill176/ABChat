@@ -13,6 +13,7 @@ export const useSocket = (
 
   useEffect(() => {
     socket.emit("subscribe", { chatId, accessToken });
+    socket.connect();
 
     const handleChatResponse = (data: any) => {
       dispatch(addMessage(data));
@@ -30,6 +31,7 @@ export const useSocket = (
     return () => {
       if (socket) {
         socket.emit("unsubscribe", { chatId, accessToken });
+        socket.disconnect();
       }
       socket.off(NotificationEvents.ChatResponse, handleChatResponse);
       socket.off("error");

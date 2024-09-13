@@ -1,11 +1,17 @@
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import Keyword from "./Keyword";
 import { useAppSelector } from "../../hooks/redux";
 import BaseBox from "../StyledComponents/BaseBox";
+import { useThemeContext } from "../../ThemeContextProvider";
 
 const Keywords = () => {
   const { keywords } = useAppSelector((state) => state.feedInfo.data);
+  const {
+    theme: {
+      palette: { mode },
+    },
+  } = useThemeContext();
 
   return (
     <BaseBox>
@@ -29,7 +35,9 @@ const Keywords = () => {
             }}
           >
             <img
-              src="../../img/like.png"
+              src={
+                mode == "light" ? "../../img/likeL.png" : "../../img/likeD.png"
+              }
               alt="like"
               style={{
                 maxHeight: "100%",
@@ -50,7 +58,11 @@ const Keywords = () => {
             }}
           >
             <img
-              src="../../img/dislike.png"
+              src={
+                mode == "light"
+                  ? "../../img/dislikeL.png"
+                  : "../../img/dislikeD.png"
+              }
               alt="dislike"
               style={{
                 maxHeight: "100%",

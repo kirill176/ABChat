@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { feedInfoSlice } from "../store/reducers/FeedInfoSlice";
 import MatchedCases from "../components/UpworkFeedInfo/MatchedCases";
 import { IUpworkFeedMatchEntityDto } from "../interfaces-submodule/interfaces/dto/upwork-feed/iupwork-feed-match-entity.dto";
+import { useThemeContext } from "../ThemeContextProvider";
 
 const FeedInfoPage = () => {
   const { id } = useParams();
@@ -19,6 +20,11 @@ const FeedInfoPage = () => {
   const { matchedCasesData, matchedBlogsData } = useAppSelector(
     (state) => state.feedInfo.data
   );
+  const {
+    theme: {
+      palette: { mode },
+    },
+  } = useThemeContext();
 
   useEffect(() => {
     dispatch(feedInfoSlice.actions.setFeed(data));
@@ -89,7 +95,10 @@ const FeedInfoPage = () => {
                 borderColor: "secondary.main",
               }}
             >
-              <img src="../img/sendD.png" alt="" />
+              <img
+                src={mode == "light" ? "../img/saveL.png" : "../img/saveD.png"}
+                alt=""
+              />
               <Typography sx={{ pl: "8px" }}>
                 Save & Generate response
               </Typography>

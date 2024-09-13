@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { IOptionInterface } from "../interfaces-submodule/interfaces/dto/common/ioption.interface";
 import { MultiValue } from "react-select";
 
 function useSelectAll(
