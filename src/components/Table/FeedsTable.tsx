@@ -19,15 +19,14 @@ import Search from "./Search";
 import TableRows from "./TableRows";
 import { columns } from "./columns";
 import { useAppSelector } from "../../hooks/redux";
+import { feedsSelector } from "../../store/reducers/FeedsSclice";
 
 interface FeedTableProps {
   loading: boolean;
 }
 
 const FeedsTable: FC<FeedTableProps> = ({ loading }) => {
-  const {
-    items: { items },
-  } = useAppSelector((state) => state.feed);
+  const { items } = useAppSelector(feedsSelector);
 
   const table = useReactTable({
     columns,

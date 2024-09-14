@@ -1,5 +1,5 @@
 import { UpworkFeedSearchBy } from "../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
-import { feedsParamsSlice } from "../store/reducers/FeedsParamsSlice";
+import { addSearchParameters } from "../store/reducers/FeedsParamsSlice";
 import { useAppDispatch } from "./redux";
 
 function useSearchParameters() {
@@ -10,11 +10,10 @@ function useSearchParameters() {
     searchBy: UpworkFeedSearchBy
   ) => {
     if (value.length !== 0 || searchBy == UpworkFeedSearchBy.Published) {
-      dispatch(
-        feedsParamsSlice.actions.setSearchParameters([
-          { searchQuery: value, searchBy },
-        ])
-      );
+      if (searchBy == UpworkFeedSearchBy.Review) {
+        value = value.length == 2 ? "" : value;
+      }
+      dispatch(addSearchParameters([{ searchQuery: value, searchBy }]));
     }
   };
 

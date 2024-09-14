@@ -5,6 +5,7 @@ import { UpworkFeedSortBy } from "../../interfaces-submodule/enums/upwork-feed/u
 import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
 import { ISearchParameterDTO } from "../../interfaces-submodule/interfaces/dto/common/isearch-parameter.interface";
 import { updateSearchParameters } from "../../utils/updateSearchParameters";
+import { RootState } from "..";
 
 interface FeedsParamsState {
   pageSize: number;
@@ -32,7 +33,7 @@ export const feedsParamsSlice = createSlice({
     setFeedsParams(state, action: PayloadAction<Partial<FeedsParamsState>>) {
       Object.assign(state, action.payload);
     },
-    setSearchParameters(
+    addSearchParameters(
       state,
       action: PayloadAction<ISearchParameterDTO<UpworkFeedSearchBy>[]>
     ) {
@@ -49,7 +50,9 @@ export const feedsParamsSlice = createSlice({
   },
 });
 
-export const { setFeedsParams, setSearchParameters, setSort, refresh } =
+export const feedsParamsSelector = (state: RootState) => state.feedsParams;
+
+export const { setFeedsParams, addSearchParameters, setSort, refresh } =
   feedsParamsSlice.actions;
 
 export default feedsParamsSlice.reducer;

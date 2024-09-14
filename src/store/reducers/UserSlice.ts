@@ -3,6 +3,7 @@ import { ApiAuth } from "../../types/auth";
 import { AccountStatus } from "../../interfaces-submodule/enums/account/account-status.enum";
 import { AccountTypeAuth } from "../../interfaces-submodule/enums/account/account-type-auth.enum";
 import { AccountRole } from "../../interfaces-submodule/enums/account/account-role.enum";
+import { RootState } from "..";
 
 const initialState: ApiAuth = {
   success: false,
@@ -41,6 +42,9 @@ export const userSlice = createSlice({
     },
   },
 });
+
+export const accountSelector = (state: RootState) => state.user.data?.account;
+export const successSelector = (state: RootState) => state.user.success;
 
 export const { setUser, logoutUser } = userSlice.actions;
 

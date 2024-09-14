@@ -4,9 +4,11 @@ import Keyword from "./Keyword";
 import { useAppSelector } from "../../hooks/redux";
 import BaseBox from "../StyledComponents/BaseBox";
 import { useThemeContext } from "../../ThemeContextProvider";
+import { feedInfoSelector } from "../../store/reducers/FeedInfoSlice";
+import { ReviewType } from "../../interfaces-submodule/enums/upwork-feed/review-type.enum";
 
 const Keywords = () => {
-  const { keywords } = useAppSelector((state) => state.feedInfo.data);
+  const { keywords, review } = useAppSelector(feedInfoSelector);
   const {
     theme: {
       palette: { mode },
@@ -32,6 +34,11 @@ const Keywords = () => {
               minWidth: "36px",
               borderRadius: "6px",
               borderColor: "secondary.main",
+              backgroundColor: review
+                ? review.type === ReviewType.Like
+                  ? "secondary.main"
+                  : ""
+                : "",
             }}
           >
             <img
@@ -55,6 +62,11 @@ const Keywords = () => {
               minWidth: "36px",
               borderRadius: "6px",
               borderColor: "secondary.main",
+              backgroundColor: review
+                ? review.type === ReviewType.Dislike
+                  ? "secondary.main"
+                  : ""
+                : "",
             }}
           >
             <img

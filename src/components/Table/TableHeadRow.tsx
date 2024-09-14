@@ -3,7 +3,10 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { SortDirection } from "../../interfaces-submodule/enums/common/sort-direction.enum";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { UpworkFeedSortBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-sort-by.enum";
-import { feedsParamsSlice } from "../../store/reducers/FeedsParamsSlice";
+import {
+  feedsParamsSelector,
+  setSort,
+} from "../../store/reducers/FeedsParamsSlice";
 
 interface TableCellProps {
   title: string;
@@ -17,23 +20,24 @@ const TableHeadRow: FC<TableCellProps> = ({
   sortBy,
 }) => {
   const dispatch = useAppDispatch();
-  const { sortBy: currentSortBy, sortDirection } = useAppSelector(
-    (state) => state.feedsParams
+  const { sortBy: currentSortBy, sortDirection } =
+    useAppSelector(feedsParamsSelector);
+
+  const [sortDirect, setSortDirect] = useState<SortDirection | undefined>(
+    sortDirection
   );
 
-  const [sort, setSort] = useState<SortDirection | undefined>(sortDirection);
-
   useEffect(() => {
-    setSort(sortDirection);
+    setSortDirect(sortDirection);
   }, [sortDirection]);
 
   const handleSortClick = () => {
     const newSortDirection =
-      sort === SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC;
+      sortDirect === SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC;
 
     if (sortBy) {
       dispatch(
-        feedsParamsSlice.actions.setSort({
+        setSort({
           sortDirection: newSortDirection,
           sortBy,
         })

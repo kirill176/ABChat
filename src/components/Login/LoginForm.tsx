@@ -7,13 +7,13 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import ErrorMessage from "./ErrorMessage";
-import useLogin from "../../hooks/useLogin";
+import { useAuth } from "../../hooks/useAuth";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { handleLogin, error } = useLogin();
+  const { handleLogin, error } = useAuth();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);

@@ -14,8 +14,8 @@ export const handleChangeParams = (
   const opt = options.map((option) => option.value);
 
   if (value.includes("ALL")) {
-    const newSelectValue = value.length >= options.length ? [] : options;
-    const newSearchParameter = value.length >= opt.length ? [] : opt;
+    const newSelectValue = value.length > options.length ? [] : options;
+    const newSearchParameter = value.length > opt.length ? [] : opt;
     setFunction(newSelectValue);
     setSearchParameters(newSearchParameter, searchBy);
   } else {

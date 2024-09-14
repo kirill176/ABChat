@@ -9,6 +9,7 @@ import {
 import React, { FC } from "react";
 import { useAppSelector } from "../../hooks/redux";
 import { calculate } from "../../utils/calculate";
+import { feedsSelector } from "../../store/reducers/FeedsSclice";
 
 interface PaginationRowTypes {
   setPageSize: React.Dispatch<React.SetStateAction<number>>;
@@ -21,9 +22,8 @@ const PaginationRow: FC<PaginationRowTypes> = ({
   setPageNumber,
   size,
 }) => {
-  const {
-    items: { totalCount, totalPages, pageNumber, pageSize },
-  } = useAppSelector((state) => state.feed);
+  const { totalCount, totalPages, pageNumber, pageSize } =
+    useAppSelector(feedsSelector);
 
   const pageSizes = [10, 20, 30, 40, 50];
 

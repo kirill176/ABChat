@@ -1,4 +1,4 @@
-import { AuthAPI, useRefreshUserMutation } from "./AuthAPI";
+import { AuthAPI } from "./AuthAPI";
 import {
   BaseQueryFn,
   fetchBaseQuery,
@@ -6,7 +6,7 @@ import {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
 import { userSlice } from "../store/reducers/UserSlice";
-import { useAppDispatch } from "../hooks/redux";
+import { mainUrl } from "../constants/url";
 type BaseQueryWithReauthFn = BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -14,11 +14,10 @@ type BaseQueryWithReauthFn = BaseQueryFn<
 >;
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://trainee-api.chat.abcloudz.com/api/v1",
+  baseUrl: mainUrl,
   prepareHeaders: (headers) => {
     const token = localStorage.getItem("accessToken");
     if (token) {
-      ``;
       headers.set("Authorization", `Bearer ${token}`);
     }
     return headers;

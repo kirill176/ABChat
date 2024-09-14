@@ -1,14 +1,14 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { SetStateAction, Dispatch, FC } from "react";
 import { useThemeContext } from "../../ThemeContextProvider";
-import { useLogout } from "../../hooks/useLogout";
+import { useAuth } from "../../hooks/useAuth";
 
 interface LogoutProps {
   setLogoutShow: Dispatch<SetStateAction<boolean>>;
 }
 
 const Logout: FC<LogoutProps> = ({ setLogoutShow }) => {
-  const { handleClickLogout } = useLogout(setLogoutShow);
+  const { handleLogout } = useAuth(setLogoutShow);
   const {
     theme: {
       palette: { mode },
@@ -34,7 +34,7 @@ const Logout: FC<LogoutProps> = ({ setLogoutShow }) => {
         }}
       >
         <Button
-          onClick={handleClickLogout}
+          onClick={handleLogout}
           sx={{ width: "100%", justifyContent: "flex-start" }}
         >
           <img src="../img/logout.svg" alt="" />

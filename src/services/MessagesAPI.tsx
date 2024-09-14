@@ -1,5 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import baseQueryWithReauth from "./RequyreAuth";
+import { messagesPath } from "../constants/url";
 
 export const MessagesAPI = createApi({
   reducerPath: "messagesAPI",
@@ -9,7 +10,7 @@ export const MessagesAPI = createApi({
       query: (chatId) => {
         const accessToken = localStorage.getItem("accessToken");
         return {
-          url: `/messages/${chatId}`,
+          url: `${messagesPath}/${chatId}`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -21,7 +22,7 @@ export const MessagesAPI = createApi({
       query: ({ chatId, content }) => {
         const accessToken = localStorage.getItem("accessToken");
         return {
-          url: "/messages/send-message",
+          url: `${messagesPath}/send-message`,
           method: "POST",
           headers: {
             accept: "application/json",

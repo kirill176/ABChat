@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IUpworkFeedDetailItemDTO } from "../../interfaces-submodule/interfaces/dto/upwork-feed/iupwork-feed-detail-item.dto";
 import { ReviewType } from "../../interfaces-submodule/enums/upwork-feed/review-type.enum";
+import { RootState } from "..";
 
 interface InfoPage {
   success: boolean;
@@ -40,6 +41,8 @@ export const feedInfoSlice = createSlice({
     },
   },
 });
+
+export const feedInfoSelector = (state: RootState) => state.feedInfo.data;
 
 export const { setFeed } = feedInfoSlice.actions;
 

@@ -7,19 +7,18 @@ import ProjectInfo from "../components/UpworkFeedInfo/ProjectInfo";
 import Keywords from "../components/UpworkFeedInfo/Keywords";
 import BaseBox from "../components/StyledComponents/BaseBox";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { feedInfoSlice } from "../store/reducers/FeedInfoSlice";
+import { feedInfoSelector, setFeed } from "../store/reducers/FeedInfoSlice";
 import MatchedCases from "../components/UpworkFeedInfo/MatchedCases";
 import { IUpworkFeedMatchEntityDto } from "../interfaces-submodule/interfaces/dto/upwork-feed/iupwork-feed-match-entity.dto";
 import { useThemeContext } from "../ThemeContextProvider";
 
 const FeedInfoPage = () => {
   const { id } = useParams();
-  const { data, error, isLoading } = useGetFeedQuery(id);
+  const { data, isLoading } = useGetFeedQuery(id);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { matchedCasesData, matchedBlogsData } = useAppSelector(
-    (state) => state.feedInfo.data
-  );
+  const { matchedCasesData, matchedBlogsData, keywords } =
+    useAppSelector(feedInfoSelector);
   const {
     theme: {
       palette: { mode },
@@ -27,7 +26,7 @@ const FeedInfoPage = () => {
   } = useThemeContext();
 
   useEffect(() => {
-    dispatch(feedInfoSlice.actions.setFeed(data));
+    dispatch(setFeed(data));
   }, [data]);
 
   const handleBackClick = (e: React.MouseEvent) => {
@@ -107,27 +106,35 @@ const FeedInfoPage = () => {
         </Box>
         <Box sx={{ maxWidth: "800px", m: "0 auto" }}>
           <ProjectInfo />
-          <Keywords />
-          <BaseBox>
-            <Typography variant="subtitle1">Matched cases</Typography>
-            {matchedCasesData.map((matchedCase: IUpworkFeedMatchEntityDto) => (
-              <MatchedCases
-                key={matchedCase.docId}
-                matched={matchedCase}
-                contentShow={true}
-              />
-            ))}
-          </BaseBox>
-          <BaseBox>
-            <Typography variant="subtitle1">Matched blogs</Typography>
-            {matchedBlogsData.map((matchedBlog: IUpworkFeedMatchEntityDto) => (
-              <MatchedCases
-                key={matchedBlog.docId}
-                matched={matchedBlog}
-                contentShow={false}
-              />
-            ))}
-          </BaseBox>
+          {keywords && <Keywords />}
+          {matchedCasesData && (
+            <BaseBox>
+              <Typography variant="subtitle1">Matched cases</Typography>
+              {matchedCasesData.map(
+                (matchedCase: IUpworkFeedMatchEntityDto) => (
+                  <MatchedCases
+                    key={matchedCase.docId}
+                    matched={matchedCase}
+                    contentShow={true}
+                  />
+                )
+              )}
+            </BaseBox>
+          )}
+          {matchedBlogsData && (
+            <BaseBox>
+              <Typography variant="subtitle1">Matched blogs</Typography>
+              {matchedBlogsData.map(
+                (matchedBlog: IUpworkFeedMatchEntityDto) => (
+                  <MatchedCases
+                    key={matchedBlog.docId}
+                    matched={matchedBlog}
+                    contentShow={false}
+                  />
+                )
+              )}
+            </BaseBox>
+          )}
         </Box>
       </Box>
     </>

@@ -9,22 +9,23 @@ import { handleChangeParams } from "../../utils/handleChangeParams";
 import DateRangePicker from "./DateRangePicker";
 import ReactSelect from "./ReactSelect";
 import { MultiValue } from "react-select";
+import { feedsParamsSelector } from "../../store/reducers/FeedsParamsSlice";
+import { OptionsSelector } from "../../store/reducers/FeedsSclice";
+import { reviews } from "../../constants/constants";
 
 const Search = ({ column }: { column: Column<any, unknown> }) => {
   const { filterVariant } = column.columnDef.meta ?? {};
   const [title, setTitle] = useState(" ");
-  const setSearchParameters = useSearchParameters();
   const [isScoreSet, setIsScoreSet] = useState(false);
   const [isKeywordSet, setIsKeywordSet] = useState(false);
-  const { scoreOptions, keywordsOptions } = useAppSelector(
-    (state) => state.feed
-  );
-  const searchParameters = useAppSelector(
-    (state) => state.feedsParams.searchParameters
-  );
+  const setSearchParameters = useSearchParameters();
+  const { keywordsOptions, scoreOptions } = useAppSelector(OptionsSelector);
+  const { searchParameters } = useAppSelector(feedsParamsSelector);
   const [score, isAllScoreSelected, setScore] = useSelectAll(scoreOptions);
   const [keywords, isAllKeywordsSelected, setKeywords] =
     useSelectAll(keywordsOptions);
+  const [review, isAllReviewSelected, setReview] = useSelectAll(reviews);
+
   const [resetTriggered, setResetTriggered] = useState(false);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
       setTitle(" ");
       setScore(scoreOptions);
       setKeywords(keywordsOptions);
+      setReview(reviews);
       setResetTriggered(false);
     }
   }, [resetTriggered]);
@@ -76,7 +78,7 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
   ) => {
     handleChangeParams(
       newValue,
-      score,
+      scoreOptions,
       setScore,
       setSearchParameters,
       UpworkFeedSearchBy.Score
@@ -95,6 +97,18 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
     );
   };
 
+  const handleSelectReactionChange = (
+    newValue: MultiValue<{ value: string; label: string }>
+  ) => {
+    handleChangeParams(
+      newValue,
+      review,
+      setReview,
+      setSearchParameters,
+      UpworkFeedSearchBy.Review
+    );
+  };
+
   if (filterVariant === "text") {
     return (
       <TextField
@@ -102,6 +116,7 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
         onChange={handleTitleChange}
         onKeyDown={handleKeyDown}
         sx={{
+          minWidth: "140px",
           width: "100%",
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
@@ -136,6 +151,17 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
         selectOptions={score}
         onChange={handleSelectScoreChange}
         isAllSelected={isAllScoreSelected}
+      />
+    );
+  }
+
+  if (filterVariant === "selectReaction") {
+    return (
+      <ReactSelect
+        value={reviews}
+        selectOptions={review}
+        onChange={handleSelectReactionChange}
+        isAllSelected={isAllReviewSelected}
       />
     );
   }

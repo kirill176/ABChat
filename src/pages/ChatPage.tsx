@@ -4,7 +4,7 @@ import ThemeButton from "../components/ThemeButton";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useGetChatsQuery } from "../services/ChatAPI";
-import { chatSlice } from "../store/reducers/ChatSlice";
+import { allChatsSelector, setChats } from "../store/reducers/ChatSlice";
 import Chat from "../components/Chat/Chat";
 import { useThemeContext } from "../ThemeContextProvider";
 import FeedsPage from "./FeedsPage";
@@ -14,14 +14,15 @@ import BluredBox from "../components/StyledComponents/BluredBox";
 import { useClickOutside } from "../hooks/useClickOutside";
 import Logout from "../components/Chat/Logout";
 import CreateChat from "../components/Chat/CreateChat";
+import { accountSelector, successSelector } from "../store/reducers/UserSlice";
 
 const ChatPage = () => {
-  const success = useAppSelector((state) => state.user.success);
-  const navigate = useNavigate();
-  const user = useAppSelector((state) => state.user.data);
-  const { data } = useGetChatsQuery();
+  const success = useAppSelector(successSelector);
+  const account = useAppSelector(accountSelector);
+  const chats = useAppSelector(allChatsSelector);
   const dispatch = useAppDispatch();
-  const chats = useAppSelector((state) => state.chat.data);
+  const navigate = useNavigate();
+  const { data } = useGetChatsQuery();
   const [addChat, setAddChat] = useState(false);
   const [logoutShow, setLogoutShow] = useState(false);
   const logoutRef = useClickOutside(() => setLogoutShow(false));
@@ -35,7 +36,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     if (data) {
-      dispatch(chatSlice.actions.setChats(data));
+      dispatch(setChats(data));
     }
   }, [data]);
 
@@ -128,9 +129,7 @@ const ChatPage = () => {
                   }
                   alt=""
                 />
-                <Typography sx={{ ml: "8px" }}>
-                  {user?.account.email}
-                </Typography>
+                <Typography sx={{ ml: "8px" }}>{account?.email}</Typography>
               </Button>
               {logoutShow && <Logout setLogoutShow={setLogoutShow} />}
             </Box>

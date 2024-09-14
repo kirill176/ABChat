@@ -12,13 +12,16 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import useFetchFeeds from "../hooks/useFetchFeeds";
 import PaginationRow from "../components/Table/PaginationRow";
 import FeedsTable from "../components/Table/FeedsTable";
-import { refresh } from "../store/reducers/FeedsParamsSlice";
+import {
+  feedsParamsSelector,
+  refresh,
+} from "../store/reducers/FeedsParamsSlice";
 
 const FeedsPage = () => {
   const { theme } = useThemeContext();
   const [pageSize, setPageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
-  const searchParameters = useAppSelector((state) => state.feedsParams);
+  const searchParameters = useAppSelector(feedsParamsSelector);
   const { handleFetchFeeds, isLoading, error } = useFetchFeeds();
   const dispatch = useAppDispatch();
 

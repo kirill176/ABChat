@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ApiChat } from "../types/chats";
 import baseQueryWithReauth from "./RequyreAuth";
+import { chatsPath } from "../constants/url";
 
 export const ChatAPI = createApi({
   reducerPath: "chatAPI",
@@ -10,7 +11,7 @@ export const ChatAPI = createApi({
       query: (name) => {
         const accessToken = localStorage.getItem("accessToken");
         return {
-          url: "/chats",
+          url: chatsPath,
           method: "POST",
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -25,7 +26,7 @@ export const ChatAPI = createApi({
       query: () => {
         const accessToken = localStorage.getItem("accessToken");
         return {
-          url: "/chats",
+          url: chatsPath,
           method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -37,7 +38,7 @@ export const ChatAPI = createApi({
       query: (chat) => {
         const accessToken = localStorage.getItem("accessToken");
         return {
-          url: `/chats/${chat.id}`,
+          url: `${chatsPath}/${chat.id}`,
           method: "PUT",
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -52,7 +53,7 @@ export const ChatAPI = createApi({
       query: (chatID: number) => {
         const accessToken = localStorage.getItem("accessToken");
         return {
-          url: `/chats/${chatID}`,
+          url: `${chatsPath}/${chatID}`,
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${accessToken}`,

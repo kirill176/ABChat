@@ -1,16 +1,22 @@
-import { ColumnDef, ColumnFiltersState, RowData } from "@tanstack/react-table";
-import { Link, Typography } from "@mui/material";
-import useFormattedDate from "../../hooks/useFormatedDate";
+import { ColumnDef, RowData } from "@tanstack/react-table";
+import { Box, Link, Typography } from "@mui/material";
 import Keyword from "../UpworkFeedInfo/Keyword";
 import Score from "../UpworkFeedInfo/Score";
 import React from "react";
 import TableHeadCell from "./TableHeadRow";
 import { IUpworkFeedItemDTO } from "../../interfaces-submodule/interfaces/dto/upwork-feed/iupwork-feed-item.dto";
 import { UpworkFeedSortBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-sort-by.enum";
+import { formattedDate } from "../../utils/formattedDate";
+import { ReviewType } from "../../interfaces-submodule/enums/upwork-feed/review-type.enum";
 
 declare module "@tanstack/react-table" {
   interface ColumnMeta<TData extends RowData, TValue> {
-    filterVariant?: "text" | "selectKeyword" | "selectScore" | "date";
+    filterVariant?:
+      | "text"
+      | "selectKeyword"
+      | "selectScore"
+      | "date"
+      | "selectReaction";
   }
 }
 
@@ -39,7 +45,7 @@ export const columns: ColumnDef<IUpworkFeedItemDTO, any>[] = [
         sortBy={UpworkFeedSortBy.Published}
       />
     ),
-    cell: ({ row }) => useFormattedDate(row.original.published),
+    cell: ({ row }) => formattedDate(row.original.published),
     accessorKey: "published",
     meta: {
       filterVariant: "date",
@@ -96,6 +102,36 @@ export const columns: ColumnDef<IUpworkFeedItemDTO, any>[] = [
       filterVariant: "selectScore",
     },
   },
+  {
+    header: () => <TableHeadCell title="Reaction" />,
+    cell: ({ row }) =>
+      row.original.review ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <img
+            src={
+              row.original.review.type == ReviewType.Like
+                ? "../../img/like.png"
+                : "../../img/dislike.png"
+            }
+            alt={
+              row.original.review.type === ReviewType.Like ? "Like" : "Dislike"
+            }
+          />
+        </Box>
+      ) : null,
+    accessorKey: "review",
+    meta: {
+      filterVariant: "selectReaction",
+    },
+  },
+
   {
     header: () => <TableHeadCell title="Matched cases" />,
     cell: ({ row }) => (

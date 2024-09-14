@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IChatItem } from "../../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
 import { ApiChat } from "../../types/chats";
+import { RootState } from "..";
 
 const initialState: ApiChat = {
   data: [],
@@ -16,10 +17,10 @@ export const chatSlice = createSlice({
     setChats(state, action: PayloadAction<ApiChat>) {
       return action.payload;
     },
-    addChat(state, action: PayloadAction<IChatItem>) {
+    newChat(state, action: PayloadAction<IChatItem>) {
       state.data.unshift(action.payload);
     },
-    deleteChat(state, action: PayloadAction<number>) {
+    removeChat(state, action: PayloadAction<number>) {
       state.data = state.data.filter((chat) => chat.id !== action.payload);
     },
     updateChat(state, action: PayloadAction<IChatItem>) {
@@ -33,6 +34,8 @@ export const chatSlice = createSlice({
   },
 });
 
-export const { setChats, addChat, deleteChat, updateChat } = chatSlice.actions;
+export const allChatsSelector = (state: RootState) => state.chat.data;
+
+export const { setChats, newChat, removeChat, updateChat } = chatSlice.actions;
 
 export default chatSlice.reducer;

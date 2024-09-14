@@ -3,15 +3,13 @@ import React, { useState } from "react";
 import { useAppSelector } from "../../hooks/redux";
 import Score from "./Score";
 import BaseBox from "../StyledComponents/BaseBox";
-import useFormattedDate from "../../hooks/useFormatedDate";
+import { formattedDate } from "../../utils/formattedDate";
+import { feedInfoSelector } from "../../store/reducers/FeedInfoSlice";
 
 const ProjectInfo = () => {
   const [full, setFull] = useState(false);
-  const { url, title, description, published, score } = useAppSelector(
-    (state) => state.feedInfo.data
-  );
-
-  const formatedDate = useFormattedDate(String(published));
+  const { url, title, description, published, score } =
+    useAppSelector(feedInfoSelector);
 
   const handleExpandClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -33,7 +31,7 @@ const ProjectInfo = () => {
           }}
         >
           <Box>
-            <Score score={score} />
+            {score && <Score score={score} />}
             <Link
               href={url}
               sx={{
@@ -47,7 +45,7 @@ const ProjectInfo = () => {
             </Link>
           </Box>
           <Typography sx={{ fontSize: "16px", lineHeight: "24px" }}>
-            {formatedDate}
+            {formattedDate(String(published))}
           </Typography>
         </Box>
 

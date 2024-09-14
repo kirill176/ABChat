@@ -1,5 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import baseQueryWithReauth from "./RequyreAuth";
+import { feedsPath } from "../constants/url";
 
 export const FeedsAPI = createApi({
   reducerPath: "FeedsAPI",
@@ -9,7 +10,7 @@ export const FeedsAPI = createApi({
       query: ({ pageSize, pageNumber, searchParams }) => {
         const accessToken = localStorage.getItem("accessToken");
         return {
-          url: "/upwork-feeds/get-feeds",
+          url: `${feedsPath}/get-feeds`,
           method: "POST",
           headers: {
             accept: "application/json",
@@ -30,7 +31,7 @@ export const FeedsAPI = createApi({
       query: (id) => {
         const accessToken = localStorage.getItem("accessToken");
         return {
-          url: `/upwork-feeds/${id}`,
+          url: `${feedsPath}/${id}`,
           method: "GET",
           headers: {
             accept: "application/json",

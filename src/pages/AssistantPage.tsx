@@ -6,9 +6,9 @@ import { messageSlice } from "../store/reducers/MessagesSlice";
 import { IMessageDTO } from "../interfaces-submodule/interfaces/dto/message/imessage-dto";
 import { useThemeContext } from "../ThemeContextProvider";
 import { useSocket } from "../hooks/useSocket";
-import { useSendMessage } from "../hooks/useSendMessage";
 import LoadingMessage from "../components/Assistant/LoadingMessage";
 import Message from "../components/Assistant/Message";
+import { useChat } from "../hooks/useChat";
 
 const AssistantPage = () => {
   const chatId = useAppSelector((state) => state.chatId.chatId);
@@ -24,15 +24,18 @@ const AssistantPage = () => {
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendMessage = useSendMessage(
-    chatId,
-    content,
-    setContent,
-    setIsLoading
-  );
+  const handleSendMessage = useChat(chatId, content, setContent, setIsLoading);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSendMessage();
+    }
+  };
+
   useSocket(chatId, setIsLoading);
   useEffect(() => {
     if (data) {
@@ -111,6 +114,7 @@ const AssistantPage = () => {
           <TextField
             value={content}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
             sx={{
               border: "none",
               width: "100%",

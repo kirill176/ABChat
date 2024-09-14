@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IMessageDTO } from "../../interfaces-submodule/interfaces/dto/message/imessage-dto";
 import { ApiMessage } from "../../types/message";
+import { RootState } from "..";
 
 const initialState: ApiMessage = {
   success: false,
@@ -24,6 +25,8 @@ export const messageSlice = createSlice({
     },
   },
 });
+
+export const messageSelector = (state: RootState) => state.message.data;
 
 export const { setMessages, addMessage } = messageSlice.actions;
 

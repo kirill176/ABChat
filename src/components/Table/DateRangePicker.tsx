@@ -5,7 +5,6 @@ import { Box } from "@mui/material";
 import useSearchParameters from "../../hooks/useSearchParameters";
 import { useThemeContext } from "../../ThemeContextProvider";
 import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
-import { useAppSelector } from "../../hooks/redux";
 
 interface DateRangePickerProps {
   resetTriggered: boolean;
@@ -20,9 +19,6 @@ const DateRangePicker: FC<DateRangePickerProps> = ({ resetTriggered }) => {
       palette: { mode },
     },
   } = useThemeContext();
-  const searchParameters = useAppSelector(
-    (state) => state.feedsParams.searchParameters
-  );
   const handleChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
     setStartDate(start || undefined);

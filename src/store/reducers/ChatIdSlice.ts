@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "..";
 
 const chatIdSlice = createSlice({
   name: "chatId",
@@ -11,6 +12,8 @@ const chatIdSlice = createSlice({
     },
   },
 });
+
+export const chatIdSelector = (state: RootState) => state.chatId.chatId;
 
 export const { setChatId } = chatIdSlice.actions;
 

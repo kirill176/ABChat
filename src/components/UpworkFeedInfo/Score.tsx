@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import { useThemeContext } from "../../ThemeContextProvider";
 import { Typography } from "@mui/material";
 import { useAppSelector } from "../../hooks/redux";
+import { OptionsSelector } from "../../store/reducers/FeedsSclice";
+import { colorsLight, colorsDark } from "../../constants/colors";
 
 interface ScoreTypes {
   score: number;
@@ -13,7 +15,7 @@ const Score: FC<ScoreTypes> = ({ score }) => {
       palette: { mode },
     },
   } = useThemeContext();
-  const scoreOptions = useAppSelector((state) => state.feed.scoreOptions);
+  const { scoreOptions } = useAppSelector(OptionsSelector);
   const labels = scoreOptions.map((option) => option.label);
 
   const parseRange = (range: string[]): [number, number][] => {
@@ -28,8 +30,7 @@ const Score: FC<ScoreTypes> = ({ score }) => {
     const maxValues = parsedRanges.map((range) => {
       return range[1];
     });
-    const colorsLight = ["#FAC8D0", "#FAD2B4", "#F0E4A8", "#C9F0C9", "#C4E5F5"];
-    const colorsDark = ["#7A2C39", "#6B3920", "#705C0B", "#2D662D", "#295266"];
+
     for (let i = 0; i < maxValues.length; i++) {
       if (value <= maxValues[i]) {
         return mode == "light" ? colorsLight[i] : colorsDark[i];

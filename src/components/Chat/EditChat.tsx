@@ -2,8 +2,8 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { FC, SetStateAction, Dispatch, useState } from "react";
 import { IChatItem } from "../../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
 import { useThemeContext } from "../../ThemeContextProvider";
-import useUpdateChat from "../../hooks/useEditChat";
 import EditBox from "../StyledComponents/EditBox";
+import { useChatManager } from "../../hooks/useChatManager";
 
 interface EditChatType {
   setEditChat: Dispatch<SetStateAction<boolean>>;
@@ -13,7 +13,7 @@ interface EditChatType {
 const EditChat: FC<EditChatType> = ({ setEditChat, chat }) => {
   const [chatName, setChatName] = useState(chat.name);
   const { theme } = useThemeContext();
-  const { handleUpdateChat } = useUpdateChat(chat, setEditChat);
+  const { handleUpdateChat } = useChatManager(setEditChat, chat);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChatName(e.target.value);

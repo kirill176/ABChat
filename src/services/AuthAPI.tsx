@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ApiAuth } from "../types/auth";
 import baseQueryWithReauth from "./RequyreAuth";
+import { authPath } from "../constants/url";
 
 export const AuthAPI = createApi({
   reducerPath: "authAPI",
@@ -8,7 +9,7 @@ export const AuthAPI = createApi({
   endpoints: (build) => ({
     postLogin: build.mutation({
       query: (credentials) => ({
-        url: "/auth/login",
+        url: `${authPath}/login`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,7 +21,7 @@ export const AuthAPI = createApi({
       query: () => {
         const accessToken = localStorage.getItem("accessToken");
         return {
-          url: "/auth/recover-user",
+          url: `${authPath}/recover-user`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -32,7 +33,7 @@ export const AuthAPI = createApi({
       query: () => {
         const refreshToken = localStorage.getItem("refreshToken");
         return {
-          url: "/auth/token/refresh",
+          url: `${authPath}/token/refresh`,
           method: "PUT",
           headers: {
             accept: "application/json",

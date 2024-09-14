@@ -42,7 +42,7 @@ const StyledList = styled(
   "-ms-overflow-style": "none",
   "scrollbar-width": "none",
   width: "100%",
-  minWidth: "240px",
+  minWidth: "140px",
   boxSizing: "border-box",
 });
 
@@ -152,7 +152,7 @@ const ReactSelect: FC<ReactSelectProps> = ({
   const customStyles: StylesConfig<OptionType> = {
     container: (provided) => ({
       ...provided,
-      minWidth: "240px",
+      minWidth: "140px",
     }),
     control: (provided, state) => ({
       ...provided,

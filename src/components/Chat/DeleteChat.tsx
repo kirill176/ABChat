@@ -1,9 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { FC, SetStateAction, Dispatch } from "react";
 import { useThemeContext } from "../../ThemeContextProvider";
-import useDeleteChat from "../../hooks/useDeleteChat";
 import EditBox from "../StyledComponents/EditBox";
 import { IChatItem } from "../../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
+import { useChatManager } from "../../hooks/useChatManager";
 
 interface DeleteChatTypes {
   chat: IChatItem;
@@ -12,7 +12,7 @@ interface DeleteChatTypes {
 
 const DeleteChat: FC<DeleteChatTypes> = ({ chat, setDeleteShow }) => {
   const { theme } = useThemeContext();
-  const { handleDeleteClick } = useDeleteChat(chat.id, setDeleteShow);
+  const { handleDeleteChat } = useChatManager(setDeleteShow, chat);
 
   return (
     <>
@@ -32,7 +32,7 @@ const DeleteChat: FC<DeleteChatTypes> = ({ chat, setDeleteShow }) => {
             No, Keep it
           </Button>
           <Button
-            onClick={handleDeleteClick}
+            onClick={handleDeleteChat}
             variant="contained"
             sx={{ backgroundColor: "#0F62FE" }}
           >

@@ -1,6 +1,7 @@
-import { Manager, Socket, io } from "socket.io-client";
+import { Manager, Socket } from "socket.io-client";
+import { mainUrl, messagesPath } from "../constants/url";
 
-const manager = new Manager("https://trainee-api.chat.abcloudz.com", {
+const manager = new Manager(mainUrl, {
   transports: ["websocket"],
   extraHeaders: {
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -12,7 +13,7 @@ const manager = new Manager("https://trainee-api.chat.abcloudz.com", {
   timeout: 20000,
 });
 
-export const socket: Socket = manager.socket("/api/v1/messages");
+export const socket: Socket = manager.socket(messagesPath);
 
 socket.on("connect", async () => {
   console.log("Socket connected");

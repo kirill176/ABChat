@@ -1,14 +1,8 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import React, {
-  FC,
-  SetStateAction,
-  Dispatch,
-  useState,
-  useCallback,
-} from "react";
+import React, { FC, SetStateAction, Dispatch, useState } from "react";
 import { useThemeContext } from "../../ThemeContextProvider";
-import { useHandleSubmit } from "../../hooks/useHandleSubmit";
 import EditBox from "../StyledComponents/EditBox";
+import { useChatManager } from "../../hooks/useChatManager";
 
 interface CreateChatType {
   setAddChat: Dispatch<SetStateAction<boolean>>;
@@ -17,10 +11,10 @@ interface CreateChatType {
 const CreateChat: FC<CreateChatType> = ({ setAddChat }) => {
   const [chatName, setChatName] = useState("");
   const { theme } = useThemeContext();
-  const handleSubmit = useHandleSubmit(chatName, setChatName, setAddChat);
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChatName(e.target.value);
-  }, []);
+  };
+  const { handleAddChat } = useChatManager(setAddChat, undefined, setChatName);
 
   return (
     <>
@@ -54,7 +48,7 @@ const CreateChat: FC<CreateChatType> = ({ setAddChat }) => {
           </Button>
           <Button
             variant="contained"
-            onClick={handleSubmit}
+            onClick={() => handleAddChat(chatName)}
             sx={{ backgroundColor: "#0F62FE" }}
           >
             Yes, create chat

@@ -1,5 +1,5 @@
 import { Box, IconButton, Typography } from "@mui/material";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useState } from "react";
 import { IChatItem } from "../../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
 import { useThemeContext } from "../../ThemeContextProvider";
 import { useAppDispatch } from "../../hooks/redux";

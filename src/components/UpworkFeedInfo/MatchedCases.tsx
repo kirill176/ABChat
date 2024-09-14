@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Box, Checkbox, Link, Typography } from "@mui/material";
 import { IUpworkFeedMatchEntityDto } from "../../interfaces-submodule/interfaces/dto/upwork-feed/iupwork-feed-match-entity.dto";
-import useFormattedDate from "../../hooks/useFormatedDate";
+import { formattedDate } from "../../utils/formattedDate";
 
 interface MatchedCasesTypes {
   matched: IUpworkFeedMatchEntityDto;
@@ -10,10 +10,6 @@ interface MatchedCasesTypes {
 
 const MatchedCases: FC<MatchedCasesTypes> = ({ matched, contentShow }) => {
   const { title, link, content, selected, infoBlock } = matched;
-
-  const format = (date: string) => {
-    return useFormattedDate(date);
-  };
 
   return (
     <>
@@ -65,7 +61,9 @@ const MatchedCases: FC<MatchedCasesTypes> = ({ matched, contentShow }) => {
                 {info.key}:
               </Typography>
               <Typography variant="body2" sx={{ textAlign: "left" }}>
-                {info.key == "Published" ? format(info.value) : info.value}
+                {info.key == "Published"
+                  ? formattedDate(info.value)
+                  : info.value}
               </Typography>
             </Box>
           ))}
