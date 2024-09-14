@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { formatISO } from "date-fns";
 import { Box } from "@mui/material";
-import useSearchParameters from "../../hooks/useSearchParameters";
+import useSearchParameters from "../../hooks/useManageSearchParameters";
 import { useThemeContext } from "../../ThemeContextProvider";
 import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
 

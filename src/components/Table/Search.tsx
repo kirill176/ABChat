@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Column } from "@tanstack/react-table";
 import { TextField } from "@mui/material";
-import useSearchParameters from "../../hooks/useSearchParameters";
 import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
 import { useAppSelector } from "../../hooks/redux";
 import useSelectAll from "../../hooks/useSelectAll";
@@ -12,13 +11,14 @@ import { MultiValue } from "react-select";
 import { feedsParamsSelector } from "../../store/reducers/FeedsParamsSlice";
 import { OptionsSelector } from "../../store/reducers/FeedsSclice";
 import { reviews } from "../../constants/constants";
+import useManageSearchParameters from "../../hooks/useManageSearchParameters";
 
 const Search = ({ column }: { column: Column<any, unknown> }) => {
   const { filterVariant } = column.columnDef.meta ?? {};
   const [title, setTitle] = useState(" ");
   const [isScoreSet, setIsScoreSet] = useState(false);
   const [isKeywordSet, setIsKeywordSet] = useState(false);
-  const setSearchParameters = useSearchParameters();
+  const setSearchParameters = useManageSearchParameters();
   const { keywordsOptions, scoreOptions } = useAppSelector(OptionsSelector);
   const { searchParameters } = useAppSelector(feedsParamsSelector);
   const [score, isAllScoreSelected, setScore] = useSelectAll(scoreOptions);

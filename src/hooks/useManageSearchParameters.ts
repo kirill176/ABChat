@@ -2,7 +2,7 @@ import { UpworkFeedSearchBy } from "../interfaces-submodule/enums/upwork-feed/up
 import { addSearchParameters } from "../store/reducers/FeedsParamsSlice";
 import { useAppDispatch } from "./redux";
 
-function useSearchParameters() {
+function useManageSearchParameters() {
   const dispatch = useAppDispatch();
 
   const setSearchParameters = (
@@ -20,4 +20,4 @@ function useSearchParameters() {
   return setSearchParameters;
 }
 
-export default useSearchParameters;
+export default useManageSearchParameters;
