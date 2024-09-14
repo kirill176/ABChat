@@ -37,6 +37,17 @@ To install the project, follow these steps:
     ```bash
     npm install
     ```
+    
+3. Add submodules:
+
+    ```bash
+    git submodule add https://gitlab.com/public-stud-prog/public-common src/interfaces-submodule
+    ```
+
+     ```bash
+    git submodule update --init --recursive
+    ```
+    
 
 ## Running the Project
 
