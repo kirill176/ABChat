@@ -76,8 +76,3 @@ To effectively use the features of the application, follow these steps:
 
 4. **Navigating to an Upwork Feed Page:**
    - To go to the Upwork feed page, click on the feed's title. This action will redirect you to a dedicated page for that feed, where you can see more details and perform related actions.
-
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
