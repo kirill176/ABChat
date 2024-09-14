@@ -2,9 +2,9 @@ import React, { FC, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { formatISO } from "date-fns";
 import { Box } from "@mui/material";
-import useSearchParameters from "../../hooks/useManageSearchParameters";
 import { useThemeContext } from "../../ThemeContextProvider";
 import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
+import useManageSearchParameters from "../../hooks/useManageSearchParameters";
 
 interface DateRangePickerProps {
   resetTriggered: boolean;
@@ -13,7 +13,7 @@ interface DateRangePickerProps {
 const DateRangePicker: FC<DateRangePickerProps> = ({ resetTriggered }) => {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
-  const setSearchParameters = useSearchParameters();
+  const setSearchParameters = useManageSearchParameters();
   const {
     theme: {
       palette: { mode },
