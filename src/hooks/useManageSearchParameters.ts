@@ -9,12 +9,7 @@ function useManageSearchParameters() {
     value: string | string[],
     searchBy: UpworkFeedSearchBy
   ) => {
-    if (value.length !== 0 || searchBy == UpworkFeedSearchBy.Published) {
-      if (searchBy == UpworkFeedSearchBy.Review) {
-        value = value.length == 2 ? "" : value;
-      }
-      dispatch(addSearchParameters([{ searchQuery: value, searchBy }]));
-    }
+    dispatch(addSearchParameters([{ searchQuery: value, searchBy }]));
   };
 
   return setSearchParameters;

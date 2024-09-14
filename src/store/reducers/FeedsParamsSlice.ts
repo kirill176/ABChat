@@ -13,6 +13,7 @@ interface FeedsParamsState {
   searchParameters: ISearchParameterDTO<UpworkFeedSearchBy>[];
   sortDirection: SortDirection;
   sortBy: UpworkFeedSortBy;
+  refreshTrigger: boolean;
 }
 
 interface FeedsSortState {
@@ -20,10 +21,11 @@ interface FeedsSortState {
   sortBy: UpworkFeedSortBy;
 }
 
-const initialState: IGetAllUpworkFeedRequest = {
+const initialState: IGetAllUpworkFeedRequest & { refreshTrigger: boolean } = {
   searchParameters: [{ searchQuery: " ", searchBy: UpworkFeedSearchBy.Title }],
   sortDirection: SortDirection.ASC,
   sortBy: UpworkFeedSortBy.Title,
+  refreshTrigger: false,
 };
 
 export const feedsParamsSlice = createSlice({
@@ -46,13 +48,21 @@ export const feedsParamsSlice = createSlice({
       state.sortDirection = action.payload.sortDirection;
       state.sortBy = action.payload.sortBy;
     },
+    setTrigger(state, action: PayloadAction<boolean>) {
+      state.refreshTrigger = action.payload;
+    },
     refresh: () => initialState,
   },
 });
 
 export const feedsParamsSelector = (state: RootState) => state.feedsParams;
 
-export const { setFeedsParams, addSearchParameters, setSort, refresh } =
-  feedsParamsSlice.actions;
+export const {
+  setFeedsParams,
+  addSearchParameters,
+  setSort,
+  setTrigger,
+  refresh,
+} = feedsParamsSlice.actions;
 
 export default feedsParamsSlice.reducer;

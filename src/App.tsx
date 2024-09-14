@@ -8,7 +8,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { userSlice } from "./store/reducers/UserSlice";
 
 export default function App() {
-  const { data: userData, error, isLoading } = useGetUserQuery();
+  const { data: userData, isLoading } = useGetUserQuery();
   const success = useAppSelector((state) => state.user.success);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

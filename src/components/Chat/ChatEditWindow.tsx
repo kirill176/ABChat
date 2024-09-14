@@ -49,11 +49,17 @@ const ChatEditWindow: FC<ChatEditWindowTypes> = ({
         }}
       >
         <ButtonStyle onClick={handleEditClick}>
-          <img src="../img/edit.svg" alt="" />
+          <img
+            src={mode == "light" ? "../img/editL.svg" : "../img/editD.svg"}
+            alt=""
+          />
           <Typography sx={{ ml: "8px" }}>Rename</Typography>
         </ButtonStyle>
         <ButtonStyle onClick={handleDeleteClick}>
-          <img src="../img/delete.svg" alt="" />
+          <img
+            src={mode == "light" ? "../img/deleteL.svg" : "../img/deleteD.svg"}
+            alt=""
+          />
 
           <Typography sx={{ ml: "8px" }}>Delete</Typography>
         </ButtonStyle>

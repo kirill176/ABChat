@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Column } from "@tanstack/react-table";
 import { TextField } from "@mui/material";
 import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import useSelectAll from "../../hooks/useSelectAll";
 import { handleChangeParams } from "../../utils/handleChangeParams";
 import DateRangePicker from "./DateRangePicker";
 import ReactSelect from "./ReactSelect";
 import { MultiValue } from "react-select";
-import { feedsParamsSelector } from "../../store/reducers/FeedsParamsSlice";
+import {
+  feedsParamsSelector,
+  setTrigger,
+} from "../../store/reducers/FeedsParamsSlice";
 import { OptionsSelector } from "../../store/reducers/FeedsSclice";
 import { reviews } from "../../constants/constants";
 import useManageSearchParameters from "../../hooks/useManageSearchParameters";
@@ -18,35 +21,25 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
   const [title, setTitle] = useState(" ");
   const [isScoreSet, setIsScoreSet] = useState(false);
   const [isKeywordSet, setIsKeywordSet] = useState(false);
+  const [isReviewSet, setIsReviewSet] = useState(false);
   const setSearchParameters = useManageSearchParameters();
   const { keywordsOptions, scoreOptions } = useAppSelector(OptionsSelector);
-  const { searchParameters } = useAppSelector(feedsParamsSelector);
+  const { refreshTrigger } = useAppSelector(feedsParamsSelector);
   const [score, isAllScoreSelected, setScore] = useSelectAll(scoreOptions);
   const [keywords, isAllKeywordsSelected, setKeywords] =
     useSelectAll(keywordsOptions);
   const [review, isAllReviewSelected, setReview] = useSelectAll(reviews);
-
-  const [resetTriggered, setResetTriggered] = useState(false);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (resetTriggered) {
+    if (refreshTrigger) {
       setTitle(" ");
       setScore(scoreOptions);
       setKeywords(keywordsOptions);
       setReview(reviews);
-      setResetTriggered(false);
+      dispatch(setTrigger(false));
     }
-  }, [resetTriggered]);
-
-  useEffect(() => {
-    if (
-      searchParameters?.length === 1 &&
-      searchParameters[0].searchQuery === " " &&
-      searchParameters[0].searchBy === UpworkFeedSearchBy.Title
-    ) {
-      setResetTriggered(true);
-    }
-  }, [searchParameters]);
+  }, [refreshTrigger]);
 
   useEffect(() => {
     if (scoreOptions.length > 0 && !isScoreSet) {
@@ -56,6 +49,10 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
     if (keywordsOptions.length > 0 && !isKeywordSet) {
       setKeywords(keywordsOptions);
       setIsKeywordSet(true);
+    }
+    if (reviews.length > 0 && !isReviewSet) {
+      setReview(reviews);
+      setIsReviewSet(true);
     }
   }, [scoreOptions, isScoreSet, keywordsOptions, isKeywordSet]);
 
@@ -90,7 +87,7 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
   ) => {
     handleChangeParams(
       newValue,
-      keywords,
+      keywordsOptions,
       setKeywords,
       setSearchParameters,
       UpworkFeedSearchBy.Keywords
@@ -102,7 +99,7 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
   ) => {
     handleChangeParams(
       newValue,
-      review,
+      reviews,
       setReview,
       setSearchParameters,
       UpworkFeedSearchBy.Review
@@ -140,6 +137,7 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
         selectOptions={keywords}
         onChange={handleSelectKeywordChange}
         isAllSelected={isAllKeywordsSelected}
+        minWidth="300px"
       />
     );
   }
@@ -151,6 +149,7 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
         selectOptions={score}
         onChange={handleSelectScoreChange}
         isAllSelected={isAllScoreSelected}
+        minWidth="140px"
       />
     );
   }
@@ -162,12 +161,13 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
         selectOptions={review}
         onChange={handleSelectReactionChange}
         isAllSelected={isAllReviewSelected}
+        minWidth="140px"
       />
     );
   }
 
   if (filterVariant === "date") {
-    return <DateRangePicker resetTriggered={resetTriggered} />;
+    return <DateRangePicker resetTriggered={refreshTrigger} />;
   }
 
   return null;

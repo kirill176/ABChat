@@ -29,6 +29,7 @@ interface ReactSelectProps {
   selectOptions: MultiValue<{ value: string; label: string }>;
   onChange: (newValue: MultiValue<OptionType>) => void;
   isAllSelected: boolean;
+  minWidth: string;
 }
 
 const StyledList = styled(
@@ -42,7 +43,6 @@ const StyledList = styled(
   "-ms-overflow-style": "none",
   "scrollbar-width": "none",
   width: "100%",
-  minWidth: "140px",
   boxSizing: "border-box",
 });
 
@@ -51,6 +51,7 @@ const ReactSelect: FC<ReactSelectProps> = ({
   selectOptions,
   onChange,
   isAllSelected,
+  minWidth,
 }) => {
   const allOption: OptionType = { value: "ALL", label: "ALL" };
   const options = [allOption, ...value];
@@ -61,14 +62,6 @@ const ReactSelect: FC<ReactSelectProps> = ({
       palette: { mode },
     },
   } = useThemeContext();
-  const handleChange = (selected: MultiValue<OptionType>) => {
-    if (selected.some((option) => option.value === "ALL") && !isAllSelected) {
-      const newValue = isAllSelected ? [] : value;
-      onChange(newValue);
-    } else {
-      onChange(selected);
-    }
-  };
 
   const Option = (props: OptionProps<OptionType, true>) => {
     const { data, innerRef, innerProps, isSelected } = props;
@@ -94,6 +87,9 @@ const ReactSelect: FC<ReactSelectProps> = ({
               fontSize: "14px",
               lineHeight: "20px",
               fontWeight: "500",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             },
           }}
           primary={data.label}
@@ -152,7 +148,7 @@ const ReactSelect: FC<ReactSelectProps> = ({
   const customStyles: StylesConfig<OptionType> = {
     container: (provided) => ({
       ...provided,
-      minWidth: "140px",
+      minWidth: minWidth,
     }),
     control: (provided, state) => ({
       ...provided,
@@ -160,6 +156,7 @@ const ReactSelect: FC<ReactSelectProps> = ({
       boxShadow: "none",
       height: "44px",
       backgroundColor: "transparent",
+      cursor: "pointer",
       "&:hover": {
         border: state.menuIsOpen ? "2px solid #0F62FE" : "2px solid #B0B3B8",
       },
@@ -179,7 +176,7 @@ const ReactSelect: FC<ReactSelectProps> = ({
         components={{ MenuList, Option, ValueContainer: CustomValueContainer }}
         closeMenuOnSelect={false}
         isClearable={false}
-        onChange={handleChange}
+        onChange={onChange}
         value={selectOptions}
         hideSelectedOptions={false}
         onMenuOpen={() => setIsOpen(true)}

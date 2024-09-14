@@ -7,18 +7,20 @@ export const handleChangeParams = (
   setFunction: React.Dispatch<
     React.SetStateAction<MultiValue<{ value: string; label: string }>>
   >,
-  setSearchParameters: (values: string[], searchBy: UpworkFeedSearchBy) => void,
+  setSearchParameters: (
+    values: string | string[],
+    searchBy: UpworkFeedSearchBy
+  ) => void,
   searchBy: UpworkFeedSearchBy
 ) => {
-  const value = e.map((option) => option.value);
-  const opt = options.map((option) => option.value);
+  var value: string | string[] = e.map((option) => option.value);
 
   if (value.includes("ALL")) {
-    const newSelectValue = value.length > options.length ? [] : options;
-    const newSearchParameter = value.length > opt.length ? [] : opt;
+    var newSelectValue = value.length >= options.length ? [] : options;
     setFunction(newSelectValue);
-    setSearchParameters(newSearchParameter, searchBy);
+    setSearchParameters("", searchBy);
   } else {
+    value = value.length == 0 ? "" : value;
     setFunction(e);
     setSearchParameters(value, searchBy);
   }

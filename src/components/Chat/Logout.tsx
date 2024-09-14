@@ -35,9 +35,16 @@ const Logout: FC<LogoutProps> = ({ setLogoutShow }) => {
       >
         <Button
           onClick={handleLogout}
-          sx={{ width: "100%", justifyContent: "flex-start" }}
+          sx={{
+            width: "100%",
+            justifyContent: "flex-start",
+            borderRadius: "12px",
+          }}
         >
-          <img src="../img/logout.svg" alt="" />
+          <img
+            src={mode == "light" ? "../img/logoutL.svg" : "../img/logoutD.svg"}
+            alt=""
+          />
           <Typography variant="body1" sx={{ ml: "8px" }}>
             Logout
           </Typography>

@@ -15,6 +15,7 @@ import FeedsTable from "../components/Table/FeedsTable";
 import {
   feedsParamsSelector,
   refresh,
+  setTrigger,
 } from "../store/reducers/FeedsParamsSlice";
 
 const FeedsPage = () => {
@@ -31,6 +32,7 @@ const FeedsPage = () => {
 
   const handleRefresh = () => {
     dispatch(refresh());
+    dispatch(setTrigger(true));
   };
 
   return (

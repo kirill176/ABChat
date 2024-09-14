@@ -12,6 +12,7 @@ function useSelectAll(
 ] {
   const [selected, setSelected] =
     useState<MultiValue<{ value: string; label: string }>>(initialLabels);
+
   const isAllSelected = selected.length === initialLabels.length;
 
   return [selected, isAllSelected, setSelected];
