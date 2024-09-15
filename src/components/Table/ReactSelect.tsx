@@ -53,7 +53,7 @@ const ReactSelect: FC<ReactSelectProps> = ({
   isAllSelected,
   minWidth,
 }) => {
-  const allOption: OptionType = { value: "ALL", label: "ALL" };
+  const allOption: OptionType = { label: "ALL", value: "ALL" };
   const options = [allOption, ...value];
   const [isOpen, setIsOpen] = useState(false);
   const ref = useClickOutside(() => setIsOpen(false));

@@ -16,7 +16,11 @@ export const handleChangeParams = (
   var value: string | string[] = e.map((option) => option.value);
 
   if (value.includes("ALL")) {
-    var newSelectValue = value.length >= options.length ? [] : options;
+    const newSelectValue = value.length >= options.length ? [] : options;
+    setFunction(newSelectValue);
+    setSearchParameters("", searchBy);
+  } else if (value.length === options.length) {
+    const newSelectValue = options;
     setFunction(newSelectValue);
     setSearchParameters("", searchBy);
   } else {
