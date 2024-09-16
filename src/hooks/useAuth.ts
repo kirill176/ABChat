@@ -27,7 +27,6 @@ export const useAuth = (setLogoutShow?: Dispatch<SetStateAction<boolean>>) => {
     localStorage.clear();
     dispatch(logoutUser());
     setLogoutShow && setLogoutShow(false);
-    window.location.reload();
   };
 
   return { handleLogin, error, handleLogout };

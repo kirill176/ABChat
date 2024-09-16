@@ -15,17 +15,17 @@ export const handleChangeParams = (
 ) => {
   var value: string | string[] = e.map((option) => option.value);
 
+  var newSelectValue = e;
+  var newSearchParameter: string | string[] = value;
+
   if (value.includes("ALL")) {
-    const newSelectValue = value.length >= options.length ? [] : options;
-    setFunction(newSelectValue);
-    setSearchParameters("", searchBy);
-  } else if (value.length === options.length) {
-    const newSelectValue = options;
-    setFunction(newSelectValue);
-    setSearchParameters("", searchBy);
-  } else {
-    value = value.length == 0 ? "" : value;
-    setFunction(e);
-    setSearchParameters(value, searchBy);
+    newSelectValue = value.length > options.length ? [] : options;
+    newSearchParameter = "";
   }
+  if (value.length === options.length || newSearchParameter.length == 0) {
+    newSearchParameter = "";
+  }
+
+  setFunction(newSelectValue);
+  setSearchParameters(newSearchParameter, searchBy);
 };

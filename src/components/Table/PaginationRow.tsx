@@ -22,8 +22,17 @@ const PaginationRow: FC<PaginationRowTypes> = ({
   setPageNumber,
   size,
 }) => {
-  const { totalCount, totalPages, pageNumber, pageSize } =
-    useAppSelector(feedsSelector);
+  const {
+    totalCount,
+    totalPages,
+    pageNumber,
+    pageSize,
+  }: {
+    totalCount: number;
+    totalPages: number;
+    pageNumber: number;
+    pageSize: number;
+  } = useAppSelector(feedsSelector);
 
   const pageSizes = [10, 20, 30, 40, 50];
 
@@ -34,6 +43,10 @@ const PaginationRow: FC<PaginationRowTypes> = ({
   const handlePerPageChange = (e: SelectChangeEvent) => {
     setPageSize(Number(e.target.value));
   };
+
+  if (pageNumber > totalPages) {
+    setPageNumber(1);
+  }
 
   return (
     <>
