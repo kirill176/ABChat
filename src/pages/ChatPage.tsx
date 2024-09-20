@@ -58,6 +58,7 @@ const ChatPage = () => {
           position: "relative",
           height: "100vh",
           backgroundColor: "background.secondary",
+          overflowX: "hidden",
         }}
       >
         <Box
@@ -142,7 +143,7 @@ const ChatPage = () => {
           }}
         >
           <Routes>
-            <Route path="feeds" element={<FeedsPage />} />
+            <Route path="feeds" element={<FeedsPage chatsShow={chatsShow} />} />
             <Route path="assistant" element={<AssistantPage />} />
             <Route path="feeds/:id" element={<FeedInfoPage />} />
             <Route path="*" element={<Navigate to="feeds" replace />} />

@@ -6,7 +6,7 @@ import {
   TableContainer,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useThemeContext } from "../ThemeContextProvider";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import useFetchFeeds from "../hooks/useFetchFeeds";
@@ -18,13 +18,19 @@ import {
   setTrigger,
 } from "../store/reducers/FeedsParamsSlice";
 
-const FeedsPage = () => {
+interface FeedsPageProps {
+  chatsShow: boolean;
+}
+
+const FeedsPage: FC<FeedsPageProps> = ({ chatsShow }) => {
   const { theme } = useThemeContext();
   const [pageSize, setPageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
   const searchParameters = useAppSelector(feedsParamsSelector);
   const { handleFetchFeeds, isLoading, error } = useFetchFeeds();
   const dispatch = useAppDispatch();
+  const [width, setWidth] = useState(window.innerWidth);
+  console.log(width);
 
   useEffect(() => {
     handleFetchFeeds(pageSize, pageNumber, searchParameters);
@@ -35,11 +41,22 @@ const FeedsPage = () => {
     dispatch(setTrigger(true));
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       <Box
         sx={{
           width: "100%",
+          maxWidth: chatsShow ? `${width - 320}px` : "100%",
           height: "100vh",
           m: "auto",
           p: "0 32px",

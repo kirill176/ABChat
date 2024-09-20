@@ -15,6 +15,7 @@ import {
 import { OptionsSelector } from "../../store/reducers/FeedsSclice";
 import { reviews } from "../../constants/constants";
 import useManageSearchParameters from "../../hooks/useManageSearchParameters";
+import { handleSearchParameter } from "../../utils/optionsHandler";
 
 const Search = ({ column }: { column: Column<any, unknown> }) => {
   const { filterVariant } = column.columnDef.meta ?? {};
@@ -24,7 +25,8 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
   const [isReviewSet, setIsReviewSet] = useState(false);
   const setSearchParameters = useManageSearchParameters();
   const { keywordsOptions, scoreOptions } = useAppSelector(OptionsSelector);
-  const { refreshTrigger } = useAppSelector(feedsParamsSelector);
+  const { refreshTrigger, searchParameters } =
+    useAppSelector(feedsParamsSelector);
   const [score, isAllScoreSelected, setScore] = useSelectAll(scoreOptions);
   const [keywords, isAllKeywordsSelected, setKeywords] =
     useSelectAll(keywordsOptions);
@@ -55,6 +57,12 @@ const Search = ({ column }: { column: Column<any, unknown> }) => {
       setIsReviewSet(true);
     }
   }, [scoreOptions, isScoreSet, keywordsOptions, isKeywordSet]);
+
+  useEffect(() => {
+    searchParameters?.forEach((param) =>
+      handleSearchParameter(param, setTitle, setKeywords, setScore, setReview)
+    );
+  }, []);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {

@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import baseQueryWithReauth from "./RequyreAuth";
+import baseQueryWithReauth from "./RequireAuth";
 import { messagesPath } from "../constants/url";
 
 export const MessagesAPI = createApi({

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ApiChat } from "../types/chats";
-import baseQueryWithReauth from "./RequyreAuth";
+import baseQueryWithReauth from "./RequireAuth";
 import { chatsPath } from "../constants/url";
 
 export const ChatAPI = createApi({

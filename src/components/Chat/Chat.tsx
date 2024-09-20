@@ -2,7 +2,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
 import { IChatItem } from "../../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
 import { useThemeContext } from "../../ThemeContextProvider";
-import { useAppDispatch } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { setChatId } from "../../store/reducers/ChatIdSlice";
 import BluredBox from "../StyledComponents/BluredBox";
 import { useClickOutside } from "../../hooks/useClickOutside";

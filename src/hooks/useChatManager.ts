@@ -1,14 +1,19 @@
-import { useAppDispatch } from "./redux";
+import { useAppDispatch, useAppSelector } from "./redux";
 import {
   useDeleteChatMutation,
   useEditChatMutation,
   useNewChatMutation,
 } from "../services/ChatAPI";
 import { IChatItem } from "../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
-import { newChat, removeChat, updateChat } from "../store/reducers/ChatSlice";
+import {
+  allChatsSelector,
+  newChat,
+  removeChat,
+  updateChat,
+} from "../store/reducers/ChatSlice";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { setChatId } from "../store/reducers/ChatIdSlice";
+import { chatIdSelector, setChatId } from "../store/reducers/ChatIdSlice";
 
 export const useChatManager = (
   setShow: (flag: boolean) => void,
@@ -20,6 +25,8 @@ export const useChatManager = (
   const [deleteChat] = useDeleteChatMutation();
   const [addChat] = useNewChatMutation();
   const navigate = useNavigate();
+  const currentChatId = useAppSelector(chatIdSelector);
+  const allChats = useAppSelector(allChatsSelector);
 
   const handleUpdateChat = async (chatName: string) => {
     try {
@@ -44,13 +51,17 @@ export const useChatManager = (
     } catch (error) {
       console.error("Failed to delete chat:", error);
     }
+
+    if (chat?.id == currentChatId) {
+      dispatch(setChatId(allChats[1].id));
+    }
   }, [chat?.id]);
 
   const handleAddChat = useCallback(async (chatName: string) => {
     try {
-      const response = await addChat(chatName).unwrap();
-      dispatch(newChat(response.data));
-      dispatch(setChatId(response.data.id));
+      const { data } = await addChat(chatName).unwrap();
+      dispatch(newChat(data));
+      dispatch(setChatId(data.id));
       setChatName && setChatName("");
       setShow(false);
       navigate("/chat/assistant");

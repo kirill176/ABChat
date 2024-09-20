@@ -45,7 +45,9 @@ const PaginationRow: FC<PaginationRowTypes> = ({
   };
 
   if (pageNumber > totalPages) {
-    setPageNumber(1);
+    if (totalPages != 0) {
+      setPageNumber(1);
+    }
   }
 
   return (

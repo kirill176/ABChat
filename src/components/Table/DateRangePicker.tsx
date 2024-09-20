@@ -5,6 +5,8 @@ import { Box } from "@mui/material";
 import { useThemeContext } from "../../ThemeContextProvider";
 import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
 import useManageSearchParameters from "../../hooks/useManageSearchParameters";
+import { useAppSelector } from "../../hooks/redux";
+import { feedsParamsSelector } from "../../store/reducers/FeedsParamsSlice";
 
 interface DateRangePickerProps {
   resetTriggered: boolean;
@@ -14,11 +16,13 @@ const DateRangePicker: FC<DateRangePickerProps> = ({ resetTriggered }) => {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const setSearchParameters = useManageSearchParameters();
+  const { searchParameters } = useAppSelector(feedsParamsSelector);
   const {
     theme: {
       palette: { mode },
     },
   } = useThemeContext();
+
   const handleChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
     setStartDate(start || undefined);
@@ -44,6 +48,22 @@ const DateRangePicker: FC<DateRangePickerProps> = ({ resetTriggered }) => {
       setStartDate(undefined);
     }
   }, [resetTriggered]);
+
+  useEffect(() => {
+    const publishedParam = searchParameters?.find(
+      (param) => param.searchBy === UpworkFeedSearchBy.Published
+    );
+
+    if (publishedParam && typeof publishedParam.searchQuery === "string") {
+      const [startD, endD] = publishedParam.searchQuery.split(" - ");
+
+      const startDate = new Date(startD);
+      const endDate = new Date(endD);
+
+      setStartDate(startDate);
+      setEndDate(endDate);
+    }
+  }, [searchParameters]);
 
   return (
     <Box>

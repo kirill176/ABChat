@@ -34,6 +34,8 @@ export const chatSlice = createSlice({
   },
 });
 
+
+
 export const allChatsSelector = (state: RootState) => state.chat.data;
 
 export const { setChats, newChat, removeChat, updateChat } = chatSlice.actions;

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ApiAuth } from "../types/auth";
-import baseQueryWithReauth from "./RequyreAuth";
+import baseQueryWithReauth from "./RequireAuth";
 import { authPath } from "../constants/url";
 
 export const AuthAPI = createApi({
