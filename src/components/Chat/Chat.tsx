@@ -3,7 +3,7 @@ import React, { FC, useState } from "react";
 import { IChatItem } from "../../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
 import { useThemeContext } from "../../ThemeContextProvider";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { setChatId } from "../../store/reducers/ChatIdSlice";
+import { chatIdSelector, setChatId } from "../../store/reducers/ChatIdSlice";
 import BluredBox from "../StyledComponents/BluredBox";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import ChatEditWindow from "./ChatEditWindow";
@@ -19,6 +19,7 @@ const Chat: FC<ChatTypes> = ({ chat, onClick }) => {
   const [settings, setSettings] = useState(false);
   const [deleteShow, setDeleteShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
+  const currentChatId = useAppSelector(chatIdSelector);
 
   const {
     theme: {
@@ -53,6 +54,7 @@ const Chat: FC<ChatTypes> = ({ chat, onClick }) => {
           position: "relative",
           transition: "all 0.3s ease 0s",
           borderRadius: "4px",
+          backgroundColor: chat.id == currentChatId ? "action.hover" : "",
           "&:hover": {
             backgroundColor: "action.hover",
           },

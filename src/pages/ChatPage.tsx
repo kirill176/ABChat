@@ -99,7 +99,7 @@ const ChatPage = () => {
               <Chat onClick={handleChatClick} key={chat.id} chat={chat} />
             ))}
           </Box>
-          <Box>
+          <Box sx={{ position: "relative", zIndex: "0" }}>
             <Button
               onClick={() => navigate("/chat/feeds")}
               sx={{ width: "100%", justifyContent: "flex-start" }}

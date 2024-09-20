@@ -43,7 +43,7 @@ const ChatEditWindow: FC<ChatEditWindowTypes> = ({
             mode === "light"
               ? "0px 4px 16px rgba(0, 0, 0, 0.16)"
               : "0px 4px 16px rgba(255, 255, 255, 0.16)",
-          zIndex: 10,
+          zIndex: 100,
           borderRadius: "12px",
           transform: "translate(-50%, 0)",
         }}

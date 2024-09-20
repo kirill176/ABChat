@@ -53,7 +53,12 @@ export const useChatManager = (
     }
 
     if (chat?.id == currentChatId) {
-      dispatch(setChatId(allChats[1].id));
+      const index = allChats.findIndex((chat) => chat.id === currentChatId);
+      if (index < allChats.length - 1) {
+        dispatch(setChatId(allChats[index + 1].id));
+      } else {
+        dispatch(setChatId(allChats[0].id));
+      }
     }
   }, [chat?.id]);
 
