@@ -6,11 +6,13 @@ import ButtonStyle from "../StyledComponents/EditBoxButton";
 interface ChatEditWindowTypes {
   setDeleteShow: Dispatch<SetStateAction<boolean>>;
   setEditShow: Dispatch<SetStateAction<boolean>>;
+  chatAbove: boolean;
 }
 
 const ChatEditWindow: FC<ChatEditWindowTypes> = ({
   setDeleteShow,
   setEditShow,
+  chatAbove,
 }) => {
   const {
     theme: {
@@ -36,7 +38,8 @@ const ChatEditWindow: FC<ChatEditWindowTypes> = ({
           flexDirection: "column",
           position: "absolute",
           left: "50%",
-          top: "100%",
+          top: chatAbove ? "auto" : "100%",
+          bottom: chatAbove ? "100%" : "auto",
           backgroundColor: "background.default",
           width: "90%",
           boxShadow:

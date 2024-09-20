@@ -30,7 +30,6 @@ const FeedsPage: FC<FeedsPageProps> = ({ chatsShow }) => {
   const { handleFetchFeeds, isLoading, error } = useFetchFeeds();
   const dispatch = useAppDispatch();
   const [width, setWidth] = useState(window.innerWidth);
-  console.log(width);
 
   useEffect(() => {
     handleFetchFeeds(pageSize, pageNumber, searchParameters);
