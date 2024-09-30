@@ -56,6 +56,8 @@ export const useChatManager = (
       const index = allChats.findIndex((chat) => chat.id === currentChatId);
       if (index < allChats.length - 1) {
         dispatch(setChatId(allChats[index + 1].id));
+      } else if (allChats.length == 1) {
+        navigate("/chat/feeds");
       } else {
         dispatch(setChatId(allChats[0].id));
       }
